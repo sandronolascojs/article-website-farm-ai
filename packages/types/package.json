@@ -1,0 +1,20 @@
+{
+  "name": "@auto-articles/types",
+  "version": "1.0.0",
+  "description": "Types for the Mentor Glide AI project (schemas, etc.)",
+  "main": "index.ts",
+  "author": "Mentor Glide AI",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "zod": "catalog:",
+    "tsx": "catalog:",
+    "@auto-articles/utils": "workspace:*",
+    "@auto-articles/config": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}

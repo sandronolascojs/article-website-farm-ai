@@ -1,0 +1,26 @@
+
+export enum Language {
+  ENGLISH_US = 'en-US',
+  ENGLISH_UK = 'en-GB',
+  SPANISH = 'es-ES',
+  FRENCH = 'fr-FR',
+  GERMAN = 'de-DE',
+  ITALIAN = 'it-IT',
+  PORTUGUESE_BR = 'pt-BR',
+  PORTUGUESE_PT = 'pt-PT',
+  RUSSIAN = 'ru-RU',
+  CHINESE_SIMPLIFIED = 'zh-CN',
+  CHINESE_TRADITIONAL = 'zh-TW',
+  JAPANESE = 'ja-JP',
+  KOREAN = 'ko-KR',
+  ARABIC = 'ar-SA',
+  HINDI = 'hi-IN',
+  DUTCH = 'nl-NL',
+  SWEDISH = 'sv-SE',
+  POLISH = 'pl-PL',
+  TURKISH = 'tr-TR',
+  VIETNAMESE = 'vi-VN',
+  THAI = 'th-TH',
+  INDONESIAN = 'id-ID',
+  MALAY = 'ms-MY'
+}

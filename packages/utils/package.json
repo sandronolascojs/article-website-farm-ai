@@ -1,0 +1,26 @@
+{
+  "name": "@auto-articles/utils",
+  "author": "Blocks AI",
+  "version": "1.0.0",
+  "description": "Utils for the project",
+  "main": "index.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch index.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "echo 'build'",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --config ../config/.prettierrc --write --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "tsx": "catalog:",
+    "prettier": "catalog:",
+    "pino": "catalog:",
+    "pino-pretty": "catalog:"
+  }
+}

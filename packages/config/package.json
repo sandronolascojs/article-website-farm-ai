@@ -1,0 +1,28 @@
+{
+  "name": "@auto-articles/config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --config ./.prettierrc --write --ignore-path .gitignore ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "catalog:",
+    "eslint-config-next": "15.3.2",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "catalog:",
+    "tailwindcss": "catalog:",
+    "tailwind-merge": "^3.3.0",
+    "tw-animate-css": "^1.3.0"
+  }
+}

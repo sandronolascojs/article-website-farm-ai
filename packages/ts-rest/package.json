@@ -1,0 +1,26 @@
+{
+  "name": "@auto-articles/ts-rest",
+  "version": "1.0.0",
+  "description": "ts-rest contracts",
+  "main": "index.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p .",
+    "dev": "tsx watch index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "format": "prettier --config ../config/.prettierrc --write --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "@ts-rest/core": "^3.52.1",
+    "zod": "catalog:",
+    "@auto-articles/utils": "workspace:*",
+    "@auto-articles/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "tsx": "catalog:",
+    "prettier": "catalog:"
+  }
+}
