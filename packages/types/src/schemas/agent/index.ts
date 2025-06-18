@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const ArticleHealthFoodOutput = z.object({
   title: z.string(),
@@ -9,4 +9,3 @@ export const ArticleHealthFoodOutput = z.object({
   slug: z.string(),
   category: z.string(),
 });
-

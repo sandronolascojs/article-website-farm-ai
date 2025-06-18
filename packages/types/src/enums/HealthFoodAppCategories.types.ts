@@ -9,41 +9,41 @@ export enum HealthFoodAppCategory {
   SOUPS = 'Soups',
   SALADS = 'Salads',
   BOWLS = 'Bowls',
-  
+
   RAW = 'Raw',
   STEAMED = 'Steamed',
   GRILLED = 'Grilled',
   BAKED = 'Baked',
   ROASTED = 'Roasted',
   FERMENTED = 'Fermented',
-  
+
   QUICK_MEALS = 'Quick Meals',
   MEAL_PREP = 'Meal Prep',
   PARTY_FOOD = 'Party Food',
   HOLIDAY_SPECIAL = 'Holiday Special',
-  
+
   SUPERFOODS = 'Superfoods',
   SEASONAL_INGREDIENTS = 'Seasonal Ingredients',
   PLANT_BASED = 'Plant Based',
   WHOLE_GRAINS = 'Whole Grains',
   HEALTHY_FATS = 'Healthy Fats',
   LEAN_PROTEINS = 'Lean Proteins',
-  
+
   TOP_FOODS = 'Top Foods',
   TOP_SNACKS = 'Top Snacks',
   TOP_BREAKFASTS = 'Top Breakfasts',
   TOP_DESSERTS = 'Top Desserts',
-  
+
   MEAL_PLANS = 'Meal Plans',
   WEEKLY_MENUS = 'Weekly Menus',
   BATCH_COOKING = 'Batch Cooking',
   FAMILY_MEALS = 'Family Meals',
-  
+
   HEALTHY_TIPS = 'Healthy Tips',
   COOKING_TIPS = 'Cooking Tips',
   GROCERY_GUIDES = 'Grocery Guides',
   FOOD_STORAGE = 'Food Storage',
-  
+
   KETO_DIET = 'Keto Diet',
   VEGAN_DIET = 'Vegan Diet',
   VEGETARIAN_DIET = 'Vegetarian Diet',
@@ -54,11 +54,11 @@ export enum HealthFoodAppCategory {
   HIGH_PROTEIN = 'High Protein',
   DAIRY_FREE = 'Dairy Free',
   SUGAR_FREE = 'Sugar Free',
-  
+
   HEALTHY_DRINKS = 'Healthy Drinks',
   ENERGY_BOOSTERS = 'Energy Boosters',
   IMMUNE_SUPPORT = 'Immune Support',
-  
+
   KIDS_FOOD = 'Kids Food',
   ON_THE_GO = 'On The Go',
   BUDGET_FRIENDLY = 'Budget Friendly',

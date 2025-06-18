@@ -1,7 +1,7 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { generateIdField } from "./id";
-import { categories } from "./categories";
-import { relations } from "drizzle-orm";
+import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { generateIdField } from './id';
+import { categories } from './categories';
+import { relations } from 'drizzle-orm';
 
 export const articles = pgTable('articles', {
   articleId: generateIdField({ name: 'article_id' }),

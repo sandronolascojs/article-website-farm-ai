@@ -45,4 +45,4 @@ export interface DatabaseConnectionError {
   databaseName: DatabaseName;
   error: Error;
   timestamp: Date;
-} 
+}

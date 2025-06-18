@@ -1,10 +1,9 @@
-import fastify from "fastify";
-import { fastifySchedule } from "@fastify/schedule";
-import { env } from "./src/config/env.config";
+import fastify from 'fastify';
+import { fastifySchedule } from '@fastify/schedule';
+import { env } from './src/config/env.config';
 
 const server = fastify();
 server.register(fastifySchedule);
-
 
 server.get('/health', () => {
   return {

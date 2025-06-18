@@ -1,4 +1,4 @@
-import { agents, Mastra, PinoLogger } from "@auto-articles/ai";
+import { agents, Mastra, PinoLogger } from '@auto-articles/ai';
 
 export const mastraInstance = new Mastra({
   agents,

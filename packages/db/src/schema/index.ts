@@ -8,5 +8,5 @@ export const schema = {
   categoriesRelations,
 };
 
-export * from './article'
-export * from './categories'
+export * from './article';
+export * from './categories';

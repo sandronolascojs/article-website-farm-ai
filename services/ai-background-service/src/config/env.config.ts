@@ -1,12 +1,14 @@
-import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-core';
+import { z } from 'zod';
 
 export const env = createEnv({
   server: {
     OPENAI_API_KEY: z.string({ required_error: 'OPENAI_API_KEY is required' }),
     PORT: z.coerce.number().default(8000),
     APP_ENV: z.enum(['development', 'production']).default('development'),
-    HEALTH_FOOD_BLOG_DATABASE_URL: z.string({ required_error: 'HEALTH_FOOD_BLOG_DATABASE_URL is required' }),
+    HEALTH_FOOD_BLOG_DATABASE_URL: z.string({
+      required_error: 'HEALTH_FOOD_BLOG_DATABASE_URL is required',
+    }),
   },
   runtimeEnvStrict: {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,

@@ -1,4 +1,3 @@
-
 export enum Language {
   ENGLISH_US = 'en-US',
   ENGLISH_UK = 'en-GB',
@@ -22,5 +21,5 @@ export enum Language {
   VIETNAMESE = 'vi-VN',
   THAI = 'th-TH',
   INDONESIAN = 'id-ID',
-  MALAY = 'ms-MY'
+  MALAY = 'ms-MY',
 }

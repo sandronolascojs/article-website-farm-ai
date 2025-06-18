@@ -1,10 +1,10 @@
 import { logger } from '@/utils/logger.instance';
 import { dbManager } from '@auto-articles/db';
-import { 
-  DatabaseName, 
-  DatabaseServiceRegistration, 
+import {
+  DatabaseName,
+  DatabaseServiceRegistration,
   DatabaseConnectionStatus,
-  DatabaseConnectionError 
+  DatabaseConnectionError,
 } from '@auto-articles/types';
 import type { Logger } from '@auto-articles/utils';
 
@@ -19,7 +19,7 @@ export class DatabaseService {
     this.serviceConnections = new Map();
     this.connectionStatus = new Map();
     this.connectionErrors = [];
-    this.logger = logger
+    this.logger = logger;
   }
 
   public static getInstance(): DatabaseService {
@@ -34,7 +34,9 @@ export class DatabaseService {
    */
   public registerService(registration: DatabaseServiceRegistration): void {
     this.serviceConnections.set(registration.serviceName, registration.databaseName);
-    this.logger.info(`Service "${registration.serviceName}" registered with database "${registration.databaseName}"`);
+    this.logger.info(
+      `Service "${registration.serviceName}" registered with database "${registration.databaseName}"`,
+    );
   }
 
   /**
@@ -42,7 +44,7 @@ export class DatabaseService {
    */
   public getConnection(serviceName: string) {
     const databaseName = this.serviceConnections.get(serviceName);
-    
+
     if (!databaseName) {
       throw new Error(`Service "${serviceName}" is not registered with any database`);
     }
@@ -54,7 +56,9 @@ export class DatabaseService {
       return connection;
     } catch (error) {
       this.handleConnectionError(databaseName, error as Error);
-      throw new Error(`Failed to get database connection for service "${serviceName}": ${(error as Error).message}`);
+      throw new Error(
+        `Failed to get database connection for service "${serviceName}": ${(error as Error).message}`,
+      );
     }
   }
 
@@ -79,7 +83,10 @@ export class DatabaseService {
     return [...this.connectionErrors];
   }
 
-  private updateConnectionStatus(databaseName: DatabaseName, status: DatabaseConnectionStatus): void {
+  private updateConnectionStatus(
+    databaseName: DatabaseName,
+    status: DatabaseConnectionStatus,
+  ): void {
     this.connectionStatus.set(databaseName, status);
   }
 
@@ -91,4 +98,4 @@ export class DatabaseService {
       timestamp: new Date(),
     });
   }
-} 
+}

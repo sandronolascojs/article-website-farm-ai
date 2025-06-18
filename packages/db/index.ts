@@ -96,7 +96,6 @@ const defaultConfigs: DatabaseConfig[] = [
   //   },
   // },
 ];
-
 export { dbManager };
 export type DB = NodePgDatabase<typeof schema>;
 

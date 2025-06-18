@@ -1,4 +1,4 @@
-import type { Agent, AgentConfig } from "@mastra/core/agent";
+import type { Agent, AgentConfig } from '@mastra/core/agent';
 
 export class BaseAgent {
   private readonly agent: Agent;

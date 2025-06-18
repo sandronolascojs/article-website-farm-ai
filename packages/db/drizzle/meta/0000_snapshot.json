@@ -95,12 +95,8 @@
           "name": "articles_category_id_categories_category_id_fk",
           "tableFrom": "articles",
           "tableTo": "categories",
-          "columnsFrom": [
-            "category_id"
-          ],
-          "columnsTo": [
-            "category_id"
-          ],
+          "columnsFrom": ["category_id"],
+          "columnsTo": ["category_id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -110,9 +106,7 @@
         "articles_article_id_unique": {
           "name": "articles_article_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "article_id"
-          ]
+          "columns": ["article_id"]
         }
       },
       "policies": {},
@@ -163,9 +157,7 @@
         "categories_category_id_unique": {
           "name": "categories_category_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "category_id"
-          ]
+          "columns": ["category_id"]
         }
       },
       "policies": {},
