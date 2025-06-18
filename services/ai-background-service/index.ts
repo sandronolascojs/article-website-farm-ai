@@ -13,7 +13,6 @@ server.get('/health', () => {
 });
 
 process.on('SIGTERM', async () => {
-  console.log('Received SIGTERM. Performing graceful shutdown...');
   await server.close();
   process.exit(0);
 });
@@ -23,5 +22,4 @@ server.listen({ port: env.PORT }, (err) => {
     server.log.error(err);
     process.exit(1);
   }
-  console.log(`Server listening on port ${env.PORT}`);
 });

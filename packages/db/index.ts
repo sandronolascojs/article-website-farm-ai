@@ -97,11 +97,7 @@ const defaultConfigs: DatabaseConfig[] = [
   // },
 ];
 
-dbManager.initialize(defaultConfigs).catch(console.error);
-
 export { dbManager };
-
-export const db: NodePgDatabase<typeof schema> = dbManager.getConnection(DatabaseName.HEALTH_FOOD_BLOG);
-export type DB = typeof db;
+export type DB = NodePgDatabase<typeof schema>;
 
 export * from './src/schema';
