@@ -74,8 +74,7 @@ class DatabaseManager {
 // Initialize database connections
 const dbManager = DatabaseManager.getInstance();
 
-// Default database configurations
-const defaultConfigs: DatabaseConfig[] = [
+export const defaultConfigs: DatabaseConfig[] = [
   {
     name: DatabaseName.HEALTH_FOOD_BLOG,
     connectionString: env.HEALTH_FOOD_BLOG_DATABASE_URL,

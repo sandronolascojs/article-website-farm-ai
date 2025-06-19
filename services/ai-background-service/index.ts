@@ -1,9 +1,16 @@
 import fastify from 'fastify';
 import { fastifySchedule } from '@fastify/schedule';
 import { env } from './src/config/env.config';
+import { healthFoodWebsiteJobs } from '@/jobs/health-food-website.jobs';
+import { dbManager, defaultConfigs } from '@auto-articles/db';
 
 const server = fastify();
 server.register(fastifySchedule);
+
+server.ready().then(async () => {
+  await dbManager.initialize(defaultConfigs);
+  healthFoodWebsiteJobs.forEach((job) => server.scheduler.addCronJob(job));
+});
 
 server.get('/health', () => {
   return {
