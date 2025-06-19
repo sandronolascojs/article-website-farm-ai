@@ -6,6 +6,8 @@ export interface BuildPromptArgs {
   existingTitles: string[];
   categories: string[];
   language: Language;
+  recentCategories: string[];
+  recentPrimaryWords: string[];
 }
 
 export const buildArticleGeneratorPrompt = ({
@@ -13,8 +15,12 @@ export const buildArticleGeneratorPrompt = ({
   existingTitles,
   categories,
   language,
+  recentCategories,
+  recentPrimaryWords,
 }: BuildPromptArgs) =>
   UNIVERSAL_LONG_FORM_ARTICLE_AGENT_PROMPT.replace('{{TOPIC_SCOPE}}', topicScope)
     .replace('{{LANGUAGE}}', language)
-    .replace('EXISTING_TITLES', JSON.stringify(existingTitles))
-    .replace('AVAILABLE_CATEGORIES', JSON.stringify(categories));
+    .replace('{{EXISTING_TITLES}}', JSON.stringify(existingTitles))
+    .replace('{{RECENT_CATEGORIES}}', JSON.stringify(recentCategories))
+    .replace('{{RECENT_PRIMARY_WORDS}}', JSON.stringify(recentPrimaryWords))
+    .replace('{{AVAILABLE_CATEGORIES}}', JSON.stringify(categories));

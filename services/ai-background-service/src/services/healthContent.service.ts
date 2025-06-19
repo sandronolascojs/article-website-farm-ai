@@ -15,18 +15,21 @@ export class GenerateHealthContentService {
     this.logger = logger;
     this.agent = agent;
 
-    let connection = DatabaseService.getInstance().getConnection(GenerateHealthContentService.name);
-    if (!connection) {
-      DatabaseService.getInstance().registerService({
+    const dbService = DatabaseService.getInstance();
+    if (!dbService.getRegisteredServices().has(GenerateHealthContentService.name)) {
+      dbService.registerService({
         serviceName: GenerateHealthContentService.name,
         databaseName: DatabaseName.HEALTH_FOOD_BLOG,
       });
-      connection = DatabaseService.getInstance().getConnection(GenerateHealthContentService.name);
     }
-    this.db = connection;
+
+    this.db = dbService.getConnection(GenerateHealthContentService.name);
   }
 
   async generateHealthArticle(count: number = 1) {
+    const recentUsedCategories: string[] = [];
+    const recentUsedPrimaryWords: string[] = [];
+
     for (let i = 0; i < count; i++) {
       const existingTitles = await this.db.query.articles
         .findMany({
@@ -41,7 +44,12 @@ export class GenerateHealthContentService {
         existingTitles,
         categories: Object.values(HealthFoodAppCategory),
         language: Language.ENGLISH_US,
+        recentCategories: recentUsedCategories,
+        recentPrimaryWords: recentUsedPrimaryWords,
       });
+
+      recentUsedCategories.push(result.category);
+      recentUsedPrimaryWords.push(...result.keywords);
 
       this.logger.info(`Generated title: ${result.title}`);
 

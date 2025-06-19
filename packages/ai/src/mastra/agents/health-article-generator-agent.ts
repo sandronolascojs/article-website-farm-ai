@@ -10,6 +10,8 @@ export type HealthFoodContext = {
   existingTitles: string[];
   categories: string[];
   language: Language;
+  recentCategories: string[];
+  recentPrimaryWords: string[];
 };
 
 const initializeHealthFoodArticleGeneratorAgentConfig = () => {
@@ -17,15 +19,20 @@ const initializeHealthFoodArticleGeneratorAgentConfig = () => {
     name: 'Health Food Article Generator Agent',
     description: 'You are an agent responsible for generating health food articles.',
     instructions: ({ runtimeContext }: { runtimeContext: RuntimeContext<HealthFoodContext> }) => {
-      const titles = runtimeContext.get('existingTitles');
+      const existingTitles = runtimeContext.get('existingTitles');
       const categories = runtimeContext.get('categories');
       const language = runtimeContext.get('language');
-      const topicScope = 'healthy recipes & nutrition';
+      const topicScope =
+        'healthy recipes, healthy food, healthy diet, healthy lifestyle, healthy eating, healthy food recipes, healthy diet recipes, healthy lifestyle recipes, healthy eating recipes';
+      const recentCategories = runtimeContext.get('recentCategories');
+      const recentPrimaryWords = runtimeContext.get('recentPrimaryWords');
       return buildArticleGeneratorPrompt({
-        existingTitles: titles,
+        existingTitles,
         categories,
         language,
         topicScope,
+        recentCategories,
+        recentPrimaryWords,
       });
     },
     model: openai('gpt-4o-mini'),
@@ -54,6 +61,8 @@ export class HealthFoodArticleGeneratorAgent extends BaseAgent {
     runtime.set('existingTitles', context.existingTitles);
     runtime.set('categories', context.categories);
     runtime.set('language', context.language);
+    runtime.set('recentCategories', context.recentCategories);
+    runtime.set('recentPrimaryWords', context.recentPrimaryWords);
 
     const result = await agent.generate([], {
       runtimeContext: runtime,

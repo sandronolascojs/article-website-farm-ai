@@ -6,15 +6,16 @@ import { AsyncTask, CronJob } from 'toad-scheduler';
 
 export const generateHealthFoodArticlesJob = new CronJob(
   {
-    cronExpression: '0 * * * *',
+    cronExpression: '0 */12 * * *',
   },
   new AsyncTask('generate-health-food-articles', async () => {
+    logger.info('Generating health food articles');
     const agent = new HealthFoodArticleGeneratorAgent({ mastra: mastraInstance });
     const healthContentService = new GenerateHealthContentService(logger, agent);
 
-    for (let i = 0; i < 30; i++) {
-      await healthContentService.generateHealthArticle();
-    }
+    await healthContentService.generateHealthArticle(10);
+
+    logger.info('Health food articles generated');
   }),
 );
 
