@@ -20,6 +20,7 @@
     "typescript": "catalog:",
     "tsx": "catalog:",
     "prettier": "catalog:",
+    "eslint": "catalog:",
     "pino": "catalog:",
     "pino-pretty": "catalog:"
   }
