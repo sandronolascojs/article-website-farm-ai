@@ -1,21 +1,16 @@
-import { GenerateHealthContentService } from '@/services/healthContent.service';
 import { logger } from '@/utils/logger.instance';
-import { mastraInstance } from '@/utils/mastra.instance';
-import { HealthFoodArticleGeneratorAgent } from '@auto-articles/ai/src/mastra';
 import { AsyncTask, CronJob } from 'toad-scheduler';
+import { addGenerateArticleJob } from '@/qeue/articleQueue';
 
+const AMOUNT_OF_ARTICLES_TO_GENERATE = 15;
 export const generateHealthFoodArticlesJob = new CronJob(
   {
-    cronExpression: '0 */12 * * *',
+    cronExpression: '0 */12 * * *', // every 12 hours
   },
   new AsyncTask('generate-health-food-articles', async () => {
-    logger.info('Generating health food articles');
-    const agent = new HealthFoodArticleGeneratorAgent({ mastra: mastraInstance });
-    const healthContentService = new GenerateHealthContentService(logger, agent);
-
-    await healthContentService.generateHealthArticle(10);
-
-    logger.info('Health food articles generated');
+    logger.info('Enqueuing health food article generation job');
+    await addGenerateArticleJob({ amount: AMOUNT_OF_ARTICLES_TO_GENERATE });
+    logger.info('Health food article generation job enqueued');
   }),
 );
 

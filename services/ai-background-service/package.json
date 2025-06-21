@@ -13,21 +13,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@auto-articles/config": "workspace:*",
     "@auto-articles/ai": "workspace:*",
-    "@auto-articles/utils": "workspace:*",
-    "@auto-articles/types": "workspace:*",
+    "@auto-articles/config": "workspace:*",
     "@auto-articles/db": "workspace:*",
+    "@auto-articles/shared": "workspace:*",
+    "@auto-articles/types": "workspace:*",
+    "@auto-articles/utils": "workspace:*",
     "@fastify/schedule": "^6.0.0",
+    "@t3-oss/env-core": "catalog:",
+    "bullmq": "^5.54.3",
     "dotenv-cli": "catalog:",
     "fastify": "catalog:",
+    "openai": "^5.5.1",
+    "sharp": "^0.34.2",
     "toad-scheduler": "^3.1.0",
-    "@t3-oss/env-core": "catalog:",
     "tsx": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "prettier": "catalog:",
     "typescript": "catalog:"
   }
 }
