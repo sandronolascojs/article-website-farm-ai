@@ -2,9 +2,9 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { tsr } from '@/lib/tsrClient';
 import { prefetchArticles } from '@/hooks/http/articles/useArticles';
 import { ArticlesView } from '@/views/articles/ArticlesView';
-import { searchParamsCache } from '@/lib/searchParamsCache';
 import { Metadata } from 'next';
 import { queryClient } from '@/lib/queryClient';
+import { articlesViewSearchParamsCache } from '@/lib/searchParamsCacheTypes/articlesViewCache';
 
 const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'My Articles';
@@ -32,10 +32,10 @@ interface ArticlesPageProps {
 }
 
 export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
-  const { page, limit } = searchParamsCache.parse(searchParams);
+  const { page, limit, search, orderBy } = articlesViewSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
 
-  await prefetchArticles(tsrQueryClient, SITE_ID, { page, limit });
+  await prefetchArticles(tsrQueryClient, SITE_ID, { page, limit, search, orderBy });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ArticlesView siteId={SITE_ID} />

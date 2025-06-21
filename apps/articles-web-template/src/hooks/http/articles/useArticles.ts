@@ -1,12 +1,22 @@
-import { DEFAULT_PAGINATION_QUERY } from '@/constants/pagination.constants';
 import { tsr } from '../../../lib/tsrClient';
 
-export const ARTICLES_QUERY_KEY = (
-  websiteId: string,
-  queryParams: typeof DEFAULT_PAGINATION_QUERY,
-) => ['articles', websiteId, queryParams.page, queryParams.limit];
+export interface ArticlesQueryParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  orderBy?: 'newest' | 'oldest';
+}
 
-export const useArticles = (websiteId: string, queryParams: typeof DEFAULT_PAGINATION_QUERY) => {
+export const ARTICLES_QUERY_KEY = (websiteId: string, queryParams: ArticlesQueryParams) => [
+  'articles',
+  websiteId,
+  queryParams.page,
+  queryParams.limit,
+  queryParams.search,
+  queryParams.orderBy,
+];
+
+export const useArticles = (websiteId: string, queryParams: ArticlesQueryParams) => {
   const query = tsr.articlesContract.getArticlesByWebsiteId.useQuery({
     queryKey: ARTICLES_QUERY_KEY(websiteId, queryParams),
     queryData: {
@@ -26,7 +36,7 @@ export const useArticles = (websiteId: string, queryParams: typeof DEFAULT_PAGIN
 export const prefetchArticles = async (
   tsrQueryClient: ReturnType<typeof tsr.initQueryClient>,
   websiteId: string,
-  queryParams: typeof DEFAULT_PAGINATION_QUERY,
+  queryParams: ArticlesQueryParams,
 ) => {
   await tsrQueryClient.articlesContract.getArticlesByWebsiteId.prefetchQuery({
     queryKey: ARTICLES_QUERY_KEY(websiteId, queryParams),

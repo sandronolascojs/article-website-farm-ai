@@ -2,7 +2,8 @@ import { articles, categories, DB } from '@auto-articles/db';
 import { Logger, type Pagination } from '@auto-articles/utils';
 import { DatabaseName } from '@auto-articles/types';
 import { DatabaseService } from '@auto-articles/shared';
-import { and, desc, eq, isNotNull, isNull, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, isNotNull, isNull, or, sql } from 'drizzle-orm';
+import type { ArticlesQuery } from '@/types/queryTypes/articlesQuery';
 
 export class ArticlesRepository {
   private readonly db: DB;
@@ -54,14 +55,8 @@ export class ArticlesRepository {
     return result;
   }
 
-  async getArticlesByWebsiteId({
-    websiteId,
-    pagination,
-  }: {
-    websiteId: string;
-    pagination: Pagination;
-  }) {
-    const { page, limit } = pagination;
+  async getArticlesByWebsiteId({ websiteId, query }: { websiteId: string; query: ArticlesQuery }) {
+    const { page, limit, search, orderBy } = query;
     const offset = (page - 1) * limit;
 
     const countResult = await this.db
@@ -74,6 +69,14 @@ export class ArticlesRepository {
           eq(articles.websiteId, websiteId),
           isNull(articles.deletedAt),
           isNotNull(articles.publishedAt),
+          search
+            ? or(
+                ilike(articles.title, `%${search}%`),
+                ilike(articles.summary, `%${search}%`),
+                ilike(sql`array_to_string(${articles.content}, ' ')`, `%${search}%`),
+                ilike(sql`array_to_string(${articles.keywords}, ' ')`, `%${search}%`),
+              )
+            : undefined,
         ),
       );
     const total = countResult[0]?.total ?? 0;
@@ -102,7 +105,7 @@ export class ArticlesRepository {
           isNotNull(articles.publishedAt),
         ),
       )
-      .orderBy(desc(articles.createdAt))
+      .orderBy(orderBy === 'newest' ? desc(articles.publishedAt) : asc(articles.publishedAt))
       .limit(limit)
       .offset(offset);
 
