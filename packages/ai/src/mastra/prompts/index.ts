@@ -50,7 +50,7 @@ LANGUAGE               = {{LANGUAGE}} - e.g. "en-US", "es-ES"
   "content" : ["<h1>…</h1>","<p>…</p>", …],  1 500–2 200 words³ 
   "keywords": ["primary","semantic",…],      5–8 items⁴        
   "summary" : "Meta ≤ 155 chars, active voice, CTA",⁵
-  "imageUrl": "<https://…>",                 optional          
+  "imagePrompt": "detailed prompt to generate the image for the article in live action",          
   "slug"    : "<kebab-case-slug>",           5–10 words⁶       
   "category": "<chosen Category>"
 }

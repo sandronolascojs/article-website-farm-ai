@@ -31,6 +31,8 @@
   "devDependencies": {
     "@types/node": "^22.15.21",
     "mastra": "^0.10.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "prettier": "catalog:",
+    "eslint": "catalog:"
   }
 }

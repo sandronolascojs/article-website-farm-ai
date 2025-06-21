@@ -1,11 +1,11 @@
-import { z } from 'zod';
+import z from 'zod';
 
-export const ArticleHealthFoodOutput = z.object({
+export const articleHealthFoodAgentOutputSchema = z.object({
   title: z.string(),
   content: z.array(z.string()),
   keywords: z.array(z.string()),
   summary: z.string(),
-  imageUrl: z.string().optional(),
+  imagePrompt: z.string(),
   slug: z.string(),
   category: z.string(),
 });

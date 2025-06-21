@@ -21,6 +21,7 @@
   "devDependencies": {
     "typescript": "catalog:",
     "tsx": "catalog:",
-    "prettier": "catalog:"
+    "prettier": "catalog:",
+    "eslint": "catalog:"
   }
 }

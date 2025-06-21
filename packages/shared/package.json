@@ -1,0 +1,29 @@
+{
+  "name": "@auto-articles/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "echo 'build'",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write --ignore-path .gitignore --config ../config/.prettierrc .",
+    "lint": "eslint . --ext .js,.ts,.tsx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@auto-articles/ai": "workspace:*",
+    "@auto-articles/config": "workspace:*",
+    "@auto-articles/db": "workspace:*",
+    "@auto-articles/types": "workspace:*",
+    "@auto-articles/utils": "workspace:*",
+    "@supabase/supabase-js": "^2.50.0"
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

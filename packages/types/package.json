@@ -6,7 +6,10 @@
   "author": "Mentor Glide AI",
   "license": "MIT",
   "scripts": {
-    "dev": "tsx watch index.ts"
+    "dev": "tsx watch index.ts",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write --ignore-path .gitignore --config ../config/.prettierrc .",
+    "lint": "eslint . --ext .js,.ts,.tsx"
   },
   "dependencies": {
     "zod": "catalog:",
@@ -15,6 +18,8 @@
     "@auto-articles/config": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "prettier": "catalog:",
+    "eslint": "catalog:"
   }
 }

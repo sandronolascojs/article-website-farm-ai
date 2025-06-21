@@ -1,5 +1,7 @@
-import { users } from './src/users.contract';
+import { categories } from './src/categories.contract';
+import { articles } from './src/articles.contract';
 
 export const contract = {
-  usersContract: users,
+  articlesContract: articles,
+  categoriesContract: categories,
 };
