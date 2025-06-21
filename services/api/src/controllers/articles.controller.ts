@@ -36,14 +36,13 @@ export const articlesRouter = server.router(contract.articlesContract, {
   },
   getArticlesByWebsiteId: async ({ params, query }) => {
     const { websiteId } = params;
-    const { page, limit } = query;
+    const { page, limit, search, orderBy } = query;
 
     const articlesService = new ArticlesService(logger);
     const articles = await articlesService.getArticlesByWebsiteId({
       websiteId,
-      pagination: { page, limit },
+      query: { page, limit, search, orderBy },
     });
-
     return {
       status: 200,
       body: {

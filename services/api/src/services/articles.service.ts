@@ -3,6 +3,7 @@ import { ArticlesRepository } from '../repositories/articles.repository';
 import { WebsitesService } from './websites.service';
 import { contract } from '@auto-articles/ts-rest';
 import { NotFoundError } from '@/utils/errors/NotFoundError';
+import type { ArticlesQuery } from '@/types/queryTypes/articlesQuery';
 
 export class ArticlesService {
   private readonly articlesRepository: ArticlesRepository;
@@ -33,13 +34,7 @@ export class ArticlesService {
     return article;
   }
 
-  async getArticlesByWebsiteId({
-    websiteId,
-    pagination,
-  }: {
-    websiteId: string;
-    pagination: Pagination;
-  }) {
+  async getArticlesByWebsiteId({ websiteId, query }: { websiteId: string; query: ArticlesQuery }) {
     const website = await this.websitesService.getWebsiteByWebsiteId({ websiteId });
     if (!website) {
       throw new NotFoundError({
@@ -48,7 +43,7 @@ export class ArticlesService {
       });
     }
 
-    return await this.articlesRepository.getArticlesByWebsiteId({ websiteId, pagination });
+    return await this.articlesRepository.getArticlesByWebsiteId({ websiteId, query });
   }
 
   async getArticlesByCategory({

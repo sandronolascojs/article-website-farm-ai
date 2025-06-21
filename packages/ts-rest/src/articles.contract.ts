@@ -5,6 +5,11 @@ import { z } from 'zod';
 
 const contract = initContract();
 
+const articlesQuerySchema = paginationSchema.extend({
+  search: z.string().optional(),
+  orderBy: z.enum(['newest', 'oldest']).optional(),
+});
+
 export const articles = contract.router({
   getArticlesFromCategory: {
     method: 'GET',
@@ -25,7 +30,7 @@ export const articles = contract.router({
   getArticlesByWebsiteId: {
     method: 'GET',
     path: '/:websiteId/articles',
-    query: paginationSchema,
+    query: articlesQuerySchema,
     pathParams: z.object({
       websiteId: z.string(),
     }),
