@@ -43,7 +43,7 @@ export const SearchBar = ({
     };
   }, [search]);
 
-  const { data } = useArticles(siteId, { search: debouncedSearch, limit: 5 });
+  const { data, error, isLoading } = useArticles(siteId, { search: debouncedSearch, limit: 5 });
   const articles: Article[] = data?.items || [];
 
   // Hide the list only if neither the input nor the list is focused/hovered
