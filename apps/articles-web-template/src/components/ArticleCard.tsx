@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import Avvvatars from 'avvvatars-react';
+import { Badge } from './ui/badge';
 
 interface Props {
   article: Article;
@@ -23,9 +24,7 @@ export const ArticleCard = ({ article }: Props) => {
         </div>
         <div className="p-4 sm:p-6 flex flex-col flex-1">
           <div className="flex items-center justify-between mb-2 sm:mb-3">
-            <span className="inline-block px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium rounded-full">
-              {article.category.name}
-            </span>
+            <Badge>{article.category.name}</Badge>
             <time className="text-xs sm:text-sm text-gray-500" dateTime={article.publishedAt}>
               {format(new Date(article.publishedAt), 'MMMM d, yyyy')}
             </time>
