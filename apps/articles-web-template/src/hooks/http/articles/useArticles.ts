@@ -1,14 +1,7 @@
-import type { OrderBy } from '@/constants/queryParams.constants';
 import { tsr } from '../../../lib/tsrClient';
+import type { ArticlesViewSearchParams } from '@/lib/searchParamsCacheTypes/articlesViewCache';
 
-export interface ArticlesQueryParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  orderBy?: OrderBy;
-}
-
-export const ARTICLES_QUERY_KEY = (websiteId: string, queryParams: ArticlesQueryParams) => [
+export const ARTICLES_QUERY_KEY = (websiteId: string, queryParams: ArticlesViewSearchParams) => [
   'articles',
   websiteId,
   queryParams.page,
@@ -17,7 +10,7 @@ export const ARTICLES_QUERY_KEY = (websiteId: string, queryParams: ArticlesQuery
   queryParams.orderBy,
 ];
 
-export const useArticles = (websiteId: string, queryParams: ArticlesQueryParams) => {
+export const useArticles = (websiteId: string, queryParams: ArticlesViewSearchParams) => {
   const query = tsr.articlesContract.getArticlesByWebsiteId.useQuery({
     queryKey: ARTICLES_QUERY_KEY(websiteId, queryParams),
     queryData: {
@@ -37,7 +30,7 @@ export const useArticles = (websiteId: string, queryParams: ArticlesQueryParams)
 export const prefetchArticles = async (
   tsrQueryClient: ReturnType<typeof tsr.initQueryClient>,
   websiteId: string,
-  queryParams: ArticlesQueryParams,
+  queryParams: ArticlesViewSearchParams,
 ) => {
   await tsrQueryClient.articlesContract.getArticlesByWebsiteId.prefetchQuery({
     queryKey: ARTICLES_QUERY_KEY(websiteId, queryParams),

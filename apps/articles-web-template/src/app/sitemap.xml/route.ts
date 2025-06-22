@@ -1,7 +1,8 @@
 import { fetchAllArticles, fetchCategories } from '@/lib/api';
+import { env } from '../../../env.mjs';
 
-const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 
 export async function GET() {
   const articles = await fetchAllArticles(SITE_ID);

@@ -1,5 +1,10 @@
 import { articleSchema } from '@auto-articles/types';
-import { errorsSchema, paginationMetaSchema, paginationSchema } from '@auto-articles/utils';
+import {
+  errorsSchema,
+  ORDER_BY_OPTIONS,
+  paginationMetaSchema,
+  paginationSchema,
+} from '@auto-articles/utils';
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
 
@@ -7,7 +12,7 @@ const contract = initContract();
 
 const articlesQuerySchema = paginationSchema.extend({
   search: z.string().optional(),
-  orderBy: z.enum(['newest', 'oldest']).optional(),
+  orderBy: z.enum(ORDER_BY_OPTIONS).optional(),
 });
 
 export const articles = contract.router({

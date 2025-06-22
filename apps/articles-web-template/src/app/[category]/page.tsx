@@ -2,17 +2,18 @@ import { Metadata } from 'next';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { tsr } from '@/lib/tsrClient';
 import { prefetchArticlesFromCategory } from '@/hooks/http/articles/useArticlesFromCategory';
-import { categoryArticlesViewSearchParamsCache } from '@/lib/searchParamsCacheTypes/categoryArticlesViewCache';
 import { CategoryArticlesView } from '@/views/categories/CategoryArticlesView';
 import { queryClient } from '@/lib/queryClient';
+import { defaultSearchParamsCache } from '@/lib/defaultSearchParamsCache';
+import { env } from '../../../env.mjs';
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
   searchParams: Record<string, string | string[] | undefined>;
 }
 
-const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category } = await params;
@@ -38,24 +39,14 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category } = await params;
-
   const tsrQueryClient = tsr.initQueryClient(queryClient);
-  const { page, limit, orderBy } = categoryArticlesViewSearchParamsCache.parse(searchParams);
-  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, category, {
-    page,
-    limit,
-    orderBy,
-  });
+  const queryParams = defaultSearchParamsCache.parse(searchParams);
+
+  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, category, queryParams);
   return (
     <main className="min-h-screen w-full bg-white">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <CategoryArticlesView
-          siteId={SITE_ID}
-          categorySlug={category}
-          page={page}
-          limit={limit}
-          orderBy={orderBy}
-        />
+        <CategoryArticlesView siteId={SITE_ID} categorySlug={category} />
       </HydrationBoundary>
     </main>
   );
