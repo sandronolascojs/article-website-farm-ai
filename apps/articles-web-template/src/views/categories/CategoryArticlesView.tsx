@@ -20,9 +20,35 @@ export const CategoryArticlesView = ({
   limit,
   orderBy,
 }: CategoryArticlesViewProps) => {
-  const { data } = useArticlesFromCategory(siteId, categorySlug, { page, limit, orderBy });
+  const { data, isLoading, isError, error } = useArticlesFromCategory(
+    siteId,
+    categorySlug,
+    { page, limit, orderBy }
+  );
   const articles = data?.items || [];
   const totalPages = data?.meta?.totalPages || 0;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading articles...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Failed to load articles</p>
+          <p className="text-gray-600">{error?.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   const titleFromSlug = categorySlug
     .replace(/-/g, ' ')
