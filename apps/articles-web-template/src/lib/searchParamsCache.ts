@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants/pagination.constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants/queryParams.constants';
 import { createSearchParamsCache, parseAsInteger } from 'nuqs/server';
 
 export const searchParamsCache = createSearchParamsCache({

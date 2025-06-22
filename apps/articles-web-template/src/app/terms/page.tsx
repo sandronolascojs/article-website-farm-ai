@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function TermsPage() {
   return (
-    <main className="flex flex-col items-center py-8">
+    <main className="min-h-screen w-full bg-white flex flex-col items-center py-8">
       <Card className="w-full max-w-3xl p-6">
         <h1 className="text-3xl font-bold mb-4">Terms and Conditions</h1>
         <p className="mb-4">

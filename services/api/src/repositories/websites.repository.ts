@@ -1,23 +1,10 @@
-import { DB } from '@auto-articles/db';
-import { DatabaseService } from '@auto-articles/shared';
+import { BaseRepository } from '@auto-articles/shared';
 import { DatabaseName } from '@auto-articles/types';
 import type { Logger } from '@auto-articles/utils';
 
-export class WebsitesRepository {
-  private readonly db: DB;
-
-  constructor(private readonly logger: Logger) {
-    this.logger = logger;
-
-    const dbService = DatabaseService.getInstance(logger);
-    if (!dbService.getRegisteredServices().has(WebsitesRepository.name)) {
-      dbService.registerService({
-        serviceName: WebsitesRepository.name,
-        databaseName: DatabaseName.HEALTH_FOOD_BLOG,
-      });
-    }
-
-    this.db = dbService.getConnection(WebsitesRepository.name);
+export class WebsitesRepository extends BaseRepository {
+  constructor(logger: Logger) {
+    super(logger, WebsitesRepository.name, DatabaseName.HEALTH_FOOD_BLOG);
   }
 
   async getWebsiteByWebsiteId({ websiteId }: { websiteId: string }) {

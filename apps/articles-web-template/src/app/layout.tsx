@@ -5,6 +5,10 @@ import Script from 'next/script';
 import '../styles/globals.css';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { QueryProvider } from '@/components/QueryProvider';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/Sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,7 +18,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={cn(inter.className, 'bg-gray-100 text-gray-900 min-h-screen')}>
         <NuqsAdapter>
           <QueryProvider>
-            <main className="flex-1">{children}</main>
+            <SidebarProvider>
+              <div className="md:hidden">
+                <AppSidebar />
+              </div>
+              <div className="flex flex-col min-h-screen w-full">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+            </SidebarProvider>
           </QueryProvider>
         </NuqsAdapter>
         <CookieConsent />

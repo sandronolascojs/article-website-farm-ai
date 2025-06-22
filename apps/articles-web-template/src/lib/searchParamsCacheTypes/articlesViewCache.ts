@@ -5,7 +5,7 @@ import {
   parseAsStringLiteral,
 } from 'nuqs/server';
 import { ArticlesQueryParams } from '@/hooks/http/articles/useArticles';
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants/pagination.constants';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants/queryParams.constants';
 
 const orderByOptions = ['newest', 'oldest'] as const;
 

@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { useQueryState, parseAsInteger } from 'nuqs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { DEFAULT_PAGE } from '@/constants/pagination.constants';
+import { DEFAULT_PAGE } from '@/constants/queryParams.constants';
 import React from 'react';
 
 interface Props {
