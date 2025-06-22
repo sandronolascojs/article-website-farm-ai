@@ -22,6 +22,7 @@ export const categoriesRouter = server.router(contract.categoriesContract, {
           categoryId: category.categoryId,
           name: category.name,
           slug: category.slug,
+          imageUrl: category.imageUrl,
           totalArticles: category.articlesCount,
         })),
         meta: {
@@ -40,12 +41,7 @@ export const categoriesRouter = server.router(contract.categoriesContract, {
     const category = await categoriesService.getCategoryBySlug({ slug, websiteId });
     return {
       status: 200,
-      body: {
-        categoryId: category.categoryId,
-        name: category.name,
-        slug: category.slug,
-        totalArticles: category.articlesCount,
-      },
+      body: category,
     };
   },
 });

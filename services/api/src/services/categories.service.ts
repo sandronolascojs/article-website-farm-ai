@@ -3,6 +3,7 @@ import { CategoriesRepository } from '../repositories/categories.repository';
 import { WebsitesService } from './websites.service';
 import { NotFoundError } from '@/utils/errors/NotFoundError';
 import { contract } from '@auto-articles/ts-rest';
+import { env } from '@/config/env.config';
 
 export class CategoriesService {
   private readonly categoriesRepository: CategoriesRepository;
@@ -30,7 +31,15 @@ export class CategoriesService {
       });
     }
 
-    return category;
+    return {
+      categoryId: category.categoryId,
+      name: category.name,
+      slug: category.slug,
+      totalArticles: category.articlesCount,
+      imageUrl: category.imageKey
+        ? `${env.SUPABASE_BUCKET_IMAGES_URL}/${category.imageKey}`
+        : undefined,
+    };
   }
 
   async getCategoriesByWebsiteId({
@@ -48,6 +57,18 @@ export class CategoriesService {
       });
     }
 
-    return await this.categoriesRepository.getCategoriesByWebsiteId({ websiteId, pagination });
+    const categories = await this.categoriesRepository.getCategoriesByWebsiteId({
+      websiteId,
+      pagination,
+    });
+    return {
+      items: categories.items.map((category) => ({
+        ...category,
+        imageUrl: category.imageKey
+          ? `${env.SUPABASE_BUCKET_IMAGES_URL}/${category.imageKey}`
+          : undefined,
+      })),
+      total: categories.total,
+    };
   }
 }

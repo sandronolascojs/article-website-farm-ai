@@ -12,16 +12,13 @@ const server = fastify();
 const tsRestServer = initServer();
 
 server.register(cors, {
-  origin: env.ALLOWED_ORIGINS,
+  origin: env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim()),
   credentials: true,
   methods: ['GET'],
   allowedHeaders: ['Content-Type'],
   exposedHeaders: ['Content-Type'],
   maxAge: 600,
 });
-
-server.register(requestHandlerPlugin);
-server.register(errorHandlerPlugin);
 
 server.get('/health', () => {
   return {
@@ -32,6 +29,9 @@ server.get('/health', () => {
 server.ready().then(async () => {
   await dbManager.initialize(defaultConfigs);
 });
+
+server.register(requestHandlerPlugin);
+server.register(errorHandlerPlugin);
 
 server.register(tsRestServer.plugin(articlesRouter));
 server.register(tsRestServer.plugin(categoriesRouter));
