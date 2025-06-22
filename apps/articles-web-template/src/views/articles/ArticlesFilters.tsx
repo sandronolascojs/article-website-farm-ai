@@ -67,7 +67,11 @@ export const ArticlesFilters = ({
           </Label>
           <Select
             value={orderBy}
-            onValueChange={(value: string) => onOrderByChange(value as OrderBy)}
+            onValueChange={(value: string) => {
+              if (value === 'newest' || value === 'oldest') {
+                onOrderByChange(value as OrderBy);
+              }
+            }}
           >
             <SelectTrigger
               id="articles-orderby-select"
