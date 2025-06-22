@@ -68,8 +68,8 @@ LANGUAGE               = {{LANGUAGE}} - e.g. "en-US", "es-ES"
 
 7 ▸ UNIQUE CONTENT RULE:
    • Based on the existing titles, avoid creating articles with similar titles, topics, or content angles. Strive for uniqueness in every article you generate.
-   • use your own judgement to determine if the article is unique or not.
-
+   • Consider articles unique if they differ by at least 3 of: primary keyword, content angle, target audience, specific focus area, or approach methodology.
+   • Semantic similarity threshold: articles must be <0.85 similar to existing content.
 ── SILENT SELF-AUDIT – revise then emit JSON; never reveal list ──
 1 WORD COUNT 1 500–2 200 | 2 TITLE length & freshness | 3 META ≤ 155
 4 ≥ 6 <h2> | 5 5–8 keywords | 6 Flesch ≥ 60
