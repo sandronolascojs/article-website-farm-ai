@@ -74,7 +74,7 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
       <section className="py-10 sm:py-12 md:py-16">
         <div className="container mx-auto px-2 sm:px-4">
           <Pagination
-            currentPage={meta.currentPage}
+            currentPage={params.page}
             totalPages={meta.totalPages}
             onPageChange={(page) => setQuery({ page })}
           />
