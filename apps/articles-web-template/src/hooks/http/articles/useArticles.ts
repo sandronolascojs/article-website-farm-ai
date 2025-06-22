@@ -1,10 +1,11 @@
+import type { OrderBy } from '@/constants/queryParams.constants';
 import { tsr } from '../../../lib/tsrClient';
 
 export interface ArticlesQueryParams {
   page?: number;
   limit?: number;
   search?: string;
-  orderBy?: 'newest' | 'oldest';
+  orderBy?: OrderBy;
 }
 
 export const ARTICLES_QUERY_KEY = (websiteId: string, queryParams: ArticlesQueryParams) => [

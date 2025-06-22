@@ -1,9 +1,8 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
 import { useCategories } from '@/hooks/http/categories/useCategories';
 import { DEFAULT_PAGINATION_QUERY } from '@/constants/queryParams.constants';
+import { CategoryCard } from '@/components/CategoryCard';
 
 interface CategoriesViewProps {
   siteId: string;
@@ -18,17 +17,9 @@ export const CategoriesView = ({ siteId }: CategoriesViewProps) => {
   return (
     <main className="flex flex-col items-center py-8">
       <h1 className="text-3xl font-bold mb-6">Categories</h1>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4 justify-center">
         {categories.map((category) => (
-          <Link
-            key={category.slug}
-            href={`/categories/${encodeURIComponent(category.slug)}`}
-            className="no-underline"
-          >
-            <Badge className="text-lg px-4 py-2 cursor-pointer hover:bg-primary/80">
-              {category.name}
-            </Badge>
-          </Link>
+          <CategoryCard key={category.categoryId} category={category} />
         ))}
       </div>
     </main>

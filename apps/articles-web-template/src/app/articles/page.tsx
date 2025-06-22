@@ -32,10 +32,10 @@ interface ArticlesPageProps {
 }
 
 export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
-  const { page, limit, search, orderBy } = articlesViewSearchParamsCache.parse(searchParams);
+  const parsed = articlesViewSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
 
-  await prefetchArticles(tsrQueryClient, SITE_ID, { page, limit, search, orderBy });
+  await prefetchArticles(tsrQueryClient, SITE_ID, parsed);
   return (
     <main className="min-h-screen w-full bg-white">
       <HydrationBoundary state={dehydrate(queryClient)}>

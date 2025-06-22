@@ -5,10 +5,8 @@ import { ArticleCard } from '@/components/ArticleCard';
 import { Pagination } from '@/components/Pagination';
 import type { Article } from '@auto-articles/types';
 import { useQueryStates } from 'nuqs';
-import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs/server';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/constants/queryParams.constants';
 import {
   Select,
   SelectTrigger,
@@ -18,13 +16,12 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { useDebouncedCallback } from '@/hooks/useDebouncedCallback';
+import { articlesViewSearchParamsConfig } from '@/lib/searchParamsCacheTypes/articlesViewCache';
+import type { OrderBy } from '@/constants/queryParams.constants';
 
 interface ArticlesViewProps {
   siteId: string;
 }
-
-type OrderBy = 'newest' | 'oldest';
-const orderByOptions: OrderBy[] = ['newest', 'oldest'];
 
 interface ArticlesFiltersProps {
   search: string;
@@ -106,12 +103,8 @@ const ArticlesFilters = ({
 };
 
 export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
-  const [{ page, limit, search, orderBy }, setQuery] = useQueryStates({
-    page: parseAsInteger.withDefault(DEFAULT_PAGE),
-    limit: parseAsInteger.withDefault(DEFAULT_PAGE_SIZE),
-    search: parseAsString.withDefault(''),
-    orderBy: parseAsStringLiteral(orderByOptions).withDefault('newest'),
-  });
+  const [params, setQuery] = useQueryStates(articlesViewSearchParamsConfig);
+  const { page, limit, search, orderBy } = params;
 
   const { data, isLoading, error } = useArticles(siteId, {
     page,
