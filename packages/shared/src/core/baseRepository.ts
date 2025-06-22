@@ -12,8 +12,13 @@ export abstract class BaseRepository {
     databaseName: DatabaseName,
   ) {
     const dbService = DatabaseService.getInstance(logger);
-    if (!dbService.getRegisteredServices().has(serviceName)) {
-      dbService.registerService({ serviceName, databaseName });
+    try {
+      if (!dbService.getRegisteredServices().has(serviceName)) {
+        dbService.registerService({ serviceName, databaseName });
+      }
+    } catch (error) {
+      this.logger.error('Failed to register database service', { serviceName, error });
+      throw error;
     }
     this.db = dbService.getConnection(serviceName);
   }
