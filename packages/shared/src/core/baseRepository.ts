@@ -19,6 +19,14 @@ export abstract class BaseRepository {
   }
 
   async withTransaction<T>(fn: (trx: DB) => Promise<T>): Promise<T> {
-    return this.db.transaction(fn);
+    try {
+      this.logger.debug('Starting database transaction');
+      const result = await this.db.transaction(fn);
+      this.logger.debug('Database transaction completed successfully');
+      return result;
+    } catch (error) {
+      this.logger.error('Database transaction failed', { error });
+      throw error;
+    }
   }
 }
