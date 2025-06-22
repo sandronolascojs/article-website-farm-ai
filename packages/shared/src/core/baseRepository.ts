@@ -19,7 +19,7 @@ export abstract class BaseRepository {
     } catch (error) {
       this.logger.error('Failed to register database service', {
         serviceName,
-        error: error as Error,
+        error: JSON.stringify(error, null, 2),
       });
       throw error;
     }
@@ -33,7 +33,7 @@ export abstract class BaseRepository {
       this.logger.debug('Database transaction completed successfully');
       return result;
     } catch (error) {
-      this.logger.error('Database transaction failed', { error: error as Error });
+      this.logger.error('Database transaction failed', { error: JSON.stringify(error, null, 2) });
       throw error;
     }
   }
