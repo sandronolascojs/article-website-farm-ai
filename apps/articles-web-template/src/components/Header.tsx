@@ -1,9 +1,5 @@
-'use client';
-
 import Link from 'next/link';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { SearchBar } from '@/components/SearchBar';
-import { useState } from 'react';
 import { Home, List, Layers } from 'lucide-react';
 
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'SiteName';
@@ -15,10 +11,6 @@ const navLinks = [
 ];
 
 export const Header = () => {
-  const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || '1';
-  const [search, setSearch] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
-
   return (
     <header className="border-b bg-white sticky top-0 z-50 min-h-16 max-h-20 w-full">
       <div className="container mx-auto px-4 py-4">
@@ -41,15 +33,6 @@ export const Header = () => {
             </nav>
           </div>
           <div className="flex items-center gap-2 md:gap-4 w-1/2 md:w-auto justify-end">
-            <div className="relative w-full max-w-xs hidden md:block">
-              <SearchBar
-                siteId={SITE_ID}
-                search={search}
-                setSearch={setSearch}
-                searchFocused={searchFocused}
-                setSearchFocused={setSearchFocused}
-              />
-            </div>
             <div className="md:hidden">
               <SidebarTrigger />
             </div>

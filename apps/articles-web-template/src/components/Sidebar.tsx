@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Sidebar,
   SidebarContent,
@@ -14,8 +12,6 @@ import {
 } from '@/components/ui/sidebar';
 import { Home, List, Layers } from 'lucide-react';
 import Link from 'next/link';
-import { SearchBar } from './SearchBar';
-import { useState } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -25,9 +21,6 @@ const navLinks = [
 
 export const AppSidebar = () => {
   const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'TechBlog';
-  const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || '1';
-  const [search, setSearch] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
 
   return (
     <Sidebar>
@@ -50,18 +43,6 @@ export const AppSidebar = () => {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Search</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SearchBar
-              siteId={SITE_ID}
-              search={search}
-              setSearch={setSearch}
-              searchFocused={searchFocused}
-              setSearchFocused={setSearchFocused}
-            />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
