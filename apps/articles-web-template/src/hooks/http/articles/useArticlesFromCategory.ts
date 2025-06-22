@@ -1,11 +1,11 @@
 import type { DefaultSearchParams } from '@auto-articles/utils';
 import { tsr } from '../../../lib/tsrClient';
 
-export const ARTICLES_FROM_CATEGORY_QUERY_KEY = (websiteId: string, categorySlug: string) => [
-  'articles-from-category',
-  websiteId,
-  categorySlug,
-];
+export const ARTICLES_FROM_CATEGORY_QUERY_KEY = (
+  websiteId: string,
+  categorySlug: string,
+  query: DefaultSearchParams,
+) => ['articles-from-category', websiteId, categorySlug, query];
 
 export const useArticlesFromCategory = (
   websiteId: string,
@@ -14,7 +14,7 @@ export const useArticlesFromCategory = (
 ) => {
   const { data, isLoading, isError, error } = tsr.articlesContract.getArticlesFromCategory.useQuery(
     {
-      queryKey: ARTICLES_FROM_CATEGORY_QUERY_KEY(websiteId, categorySlug),
+      queryKey: ARTICLES_FROM_CATEGORY_QUERY_KEY(websiteId, categorySlug, query),
       queryData: {
         params: { websiteId, categorySlug },
         query,
@@ -32,7 +32,7 @@ export const prefetchArticlesFromCategory = async (
   query: DefaultSearchParams,
 ) => {
   await tsrQueryClient.articlesContract.getArticlesFromCategory.prefetchQuery({
-    queryKey: ARTICLES_FROM_CATEGORY_QUERY_KEY(websiteId, categorySlug),
+    queryKey: ARTICLES_FROM_CATEGORY_QUERY_KEY(websiteId, categorySlug, query),
     queryData: {
       params: { websiteId, categorySlug },
       query,

@@ -1,12 +1,13 @@
+import { Button } from '@/components/ui/button';
 import {
-  Pagination,
+  Pagination as PaginationComponent,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
 } from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 import React, { useMemo } from 'react';
 
 interface ArticlesPaginationProps {
@@ -49,11 +50,7 @@ function getPaginationRange(currentPage: number, totalPages: number): (number | 
   return pages;
 }
 
-export const ArticlesPagination = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: ArticlesPaginationProps) => {
+export const Pagination = ({ currentPage, totalPages, onPageChange }: ArticlesPaginationProps) => {
   const pages = useMemo(
     () => getPaginationRange(currentPage, totalPages),
     [currentPage, totalPages],
@@ -61,12 +58,13 @@ export const ArticlesPagination = ({
   if (totalPages <= 1) return null;
 
   return (
-    <Pagination className="mt-8">
+    <PaginationComponent>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
             onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
             aria-disabled={currentPage <= 1}
+            className={cn(currentPage <= 1 && 'pointer-events-none opacity-50', 'cursor-pointer')}
           />
         </PaginationItem>
         {pages.map((page, idx) =>
@@ -76,14 +74,14 @@ export const ArticlesPagination = ({
             </PaginationItem>
           ) : (
             <PaginationItem key={page}>
-              <PaginationLink
-                isActive={page === currentPage}
+              <Button
+                variant={page === currentPage ? 'default' : 'outline'}
                 onClick={() => page !== currentPage && onPageChange(Number(page))}
                 aria-current={page === currentPage ? 'page' : undefined}
-                href="#"
+                size="icon"
               >
                 {page}
-              </PaginationLink>
+              </Button>
             </PaginationItem>
           ),
         )}
@@ -91,9 +89,13 @@ export const ArticlesPagination = ({
           <PaginationNext
             onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
             aria-disabled={currentPage >= totalPages}
+            className={cn(
+              currentPage >= totalPages && 'pointer-events-none opacity-50',
+              'cursor-pointer',
+            )}
           />
         </PaginationItem>
       </PaginationContent>
-    </Pagination>
+    </PaginationComponent>
   );
 };

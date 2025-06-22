@@ -43,10 +43,10 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { categorySlug } = await params;
-  const safeParams = defaultSearchParamsCache.parse(searchParams);
+  const queryParams = defaultSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
 
-  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, categorySlug, safeParams);
+  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, categorySlug, queryParams);
 
   return (
     <main className="min-h-screen w-full bg-white">

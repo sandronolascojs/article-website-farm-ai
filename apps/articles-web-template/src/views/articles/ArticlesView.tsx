@@ -4,7 +4,7 @@ import { ArticleCard } from '@/components/ArticleCard';
 import type { Article } from '@auto-articles/types';
 import { useQueryStates } from 'nuqs';
 import { articlesViewSearchParamsConfig } from '@/lib/searchParamsCacheTypes/articlesViewCache';
-import { ArticlesPagination } from './ArticlesPagination';
+import { Pagination } from '@/components/Pagination';
 import { ArticlesFilters } from './ArticlesFilters';
 
 interface ArticlesViewProps {
@@ -51,7 +51,7 @@ export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
               ))
             )}
           </div>
-          <ArticlesPagination
+          <Pagination
             currentPage={params.page}
             totalPages={meta.totalPages}
             onPageChange={(page) => setQuery({ page })}
