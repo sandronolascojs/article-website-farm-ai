@@ -1,6 +1,6 @@
 import { authors, dbManager, defaultConfigs } from './index';
 import { websites } from './src/schema/websites';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { WebsiteId } from '@auto-articles/types';
 
 const websitesSeed: Array<{
@@ -69,12 +69,7 @@ async function seedWebsites() {
       const existing = await db
         .select()
         .from(authors)
-        .where(
-          and(
-            eq(authors.name, author.name),
-            eq(authors.websiteId, author.websiteId)
-          )
-        )
+        .where(and(eq(authors.name, author.name), eq(authors.websiteId, author.websiteId)))
         .limit(1);
 
       if (existing.length === 0) {

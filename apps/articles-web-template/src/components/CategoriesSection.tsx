@@ -1,5 +1,5 @@
 import type { Category } from '@auto-articles/types';
-import { BookOpen } from 'lucide-react';
+import { CategoryCard } from './CategoryCard';
 
 interface Props {
   categories: Category[];
@@ -19,25 +19,7 @@ export const CategoriesSection = ({ categories }: Props) => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {categories.map((category) => (
-            <div
-              key={category.categoryId}
-              className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow duration-300 cursor-pointer group"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-2 sm:p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                  <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-                </div>
-                <span className="text-lg sm:text-2xl font-bold text-gray-400">
-                  {category.totalArticles}
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">
-                {category.name}
-              </h3>
-              <p className="text-gray-600 text-sm sm:text-base">
-                {category.totalArticles} article{category.totalArticles !== 1 ? 's' : ''}
-              </p>
-            </div>
+            <CategoryCard key={category.categoryId} category={category} />
           ))}
         </div>
       </div>

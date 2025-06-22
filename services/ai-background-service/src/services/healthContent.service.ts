@@ -1,5 +1,5 @@
 import type { HealthFoodArticleGeneratorAgent } from '@auto-articles/ai/src/mastra';
-import { Language, WebsiteId } from '@auto-articles/types';
+import { HealthFoodAppCategory, Language, WebsiteId } from '@auto-articles/types';
 import type { Logger } from '@auto-articles/utils';
 import { CategoriesRepository } from '@/repositories/categories.repository';
 import { ArticlesRepository } from '@/repositories/articles.repository';
@@ -44,14 +44,9 @@ export class GenerateHealthContentService {
       });
       const existingTitles = existingTitlesFromDb.map((article) => article.title);
 
-      const existingCategoriesFromDb = await this.categoriesRepository.getCategoriesByWebsiteId({
-        websiteId: WebsiteId.HEALTH_FOOD_BLOG,
-      });
-      const existingCategories = existingCategoriesFromDb.map((category) => category.name);
-
       const result = await this.agent.generateArticle({
         existingTitles,
-        categories: existingCategories,
+        categories: Object.values(HealthFoodAppCategory),
         language: Language.ENGLISH_US,
         recentCategories: recentUsedCategories,
         recentPrimaryWords: recentUsedPrimaryWords,

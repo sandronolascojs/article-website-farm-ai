@@ -21,9 +21,17 @@ export class CategoriesRepository extends BaseRepository {
         createdAt: categories.createdAt,
         updatedAt: categories.updatedAt,
         articlesCount: count(articles.articleId).as('articlesCount'),
+        imageKey: sql<string | null>`(
+          SELECT a.image_key FROM articles as a
+          WHERE a.category_id = ${categories.categoryId}
+            AND a.deleted_at IS NULL
+            AND a.published_at IS NOT NULL
+          ORDER BY a.published_at ASC
+          LIMIT 1
+        )`,
       })
       .from(categories)
-      .leftJoin(
+      .innerJoin(
         articles,
         and(
           eq(articles.categoryId, categories.categoryId),
@@ -42,6 +50,7 @@ export class CategoriesRepository extends BaseRepository {
         categories.createdAt,
         categories.updatedAt,
       )
+      .having(sql`count(${articles.articleId}) > 0`)
       .limit(1);
 
     return result;
@@ -59,10 +68,18 @@ export class CategoriesRepository extends BaseRepository {
 
     const countResult = await this.db
       .select({
-        total: sql<number>`count(${categories.categoryId})`,
+        total: sql<number>`count(distinct ${categories.categoryId})`,
       })
       .from(categories)
-      .where(eq(categories.websiteId, websiteId));
+      .innerJoin(
+        articles,
+        and(
+          eq(articles.categoryId, categories.categoryId),
+          isNull(articles.deletedAt),
+          isNotNull(articles.publishedAt),
+        ),
+      )
+      .where(and(eq(categories.websiteId, websiteId), isNull(categories.deletedAt)));
 
     const total = countResult[0]?.total ?? 0;
 
@@ -72,9 +89,17 @@ export class CategoriesRepository extends BaseRepository {
         name: categories.name,
         slug: categories.slug,
         articlesCount: count(articles.articleId).as('articlesCount'),
+        imageKey: sql<string | null>`(
+          SELECT a.image_key FROM articles as a
+          WHERE a.category_id = ${categories.categoryId}
+            AND a.deleted_at IS NULL
+            AND a.published_at IS NOT NULL
+          ORDER BY a.published_at ASC
+          LIMIT 1
+        )`,
       })
       .from(categories)
-      .leftJoin(
+      .innerJoin(
         articles,
         and(
           eq(articles.categoryId, categories.categoryId),
@@ -84,6 +109,7 @@ export class CategoriesRepository extends BaseRepository {
       )
       .where(and(eq(categories.websiteId, websiteId), isNull(categories.deletedAt)))
       .groupBy(categories.categoryId)
+      .having(sql`count(${articles.articleId}) > 0`)
       .orderBy(desc(categories.name))
       .limit(limit)
       .offset(offset);

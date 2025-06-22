@@ -20,11 +20,11 @@ export const CategoryArticlesView = ({
   limit,
   orderBy,
 }: CategoryArticlesViewProps) => {
-  const { data, isLoading, isError, error } = useArticlesFromCategory(
-    siteId,
-    categorySlug,
-    { page, limit, orderBy }
-  );
+  const { data, isLoading, isError, error } = useArticlesFromCategory(siteId, categorySlug, {
+    page,
+    limit,
+    orderBy,
+  });
   const articles = data?.items || [];
   const totalPages = data?.meta?.totalPages || 0;
 
