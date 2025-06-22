@@ -4,8 +4,9 @@ import { ArticleCard } from '@/components/ArticleCard';
 import type { Article } from '@auto-articles/types';
 import { useQueryStates } from 'nuqs';
 import { articlesViewSearchParamsConfig } from '@/lib/searchParamsCacheTypes/articlesViewCache';
-import { ArticlesPagination } from './ArticlesPagination';
+import { Pagination } from '@/components/Pagination';
 import { ArticlesFilters } from './ArticlesFilters';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, type PaginationMeta } from '@auto-articles/utils';
 
 interface ArticlesViewProps {
   siteId: string;
@@ -19,7 +20,12 @@ export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
   if (error) return <div>Error loading articles</div>;
 
   const articles: Article[] = data?.items || [];
-  const meta = data?.meta || { totalPages: 1 };
+  const meta: PaginationMeta = data?.meta || {
+    totalPages: 1,
+    totalItems: 0,
+    currentPage: DEFAULT_PAGE,
+    itemsPerPage: DEFAULT_PAGE_SIZE,
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -51,8 +57,12 @@ export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
               ))
             )}
           </div>
-          <ArticlesPagination
-            currentPage={params.page}
+        </div>
+      </section>
+      <section className="py-10 sm:py-12 md:py-16">
+        <div className="container mx-auto px-2 sm:px-4">
+          <Pagination
+            currentPage={meta.currentPage}
             totalPages={meta.totalPages}
             onPageChange={(page) => setQuery({ page })}
           />

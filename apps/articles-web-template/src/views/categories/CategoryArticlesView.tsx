@@ -1,10 +1,12 @@
 'use client';
 
 import { useArticlesFromCategory } from '@/hooks/http/articles/useArticlesFromCategory';
-import { CategoryArticlesPagination } from './CategoryArticlesPagination';
 import { ArticleCard } from '@/components/ArticleCard';
 import { useQueryStates } from 'nuqs';
 import { defaultSearchParamsConfig } from '@/lib/defaultSearchParamsCache';
+import { Pagination } from '@/components/Pagination';
+import type { Article } from '@auto-articles/types';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, type PaginationMeta } from '@auto-articles/utils';
 
 interface CategoryArticlesViewProps {
   siteId: string;
@@ -12,10 +14,15 @@ interface CategoryArticlesViewProps {
 }
 
 export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesViewProps) => {
-  const [params] = useQueryStates(defaultSearchParamsConfig);
+  const [params, setQuery] = useQueryStates(defaultSearchParamsConfig);
   const { data, isLoading, isError } = useArticlesFromCategory(siteId, categorySlug, params);
-  const articles = data?.items || [];
-  const totalPages = data?.meta?.totalPages || 0;
+  const articles: Article[] = data?.items || [];
+  const meta: PaginationMeta = data?.meta || {
+    totalPages: 1,
+    totalItems: 0,
+    currentPage: DEFAULT_PAGE,
+    itemsPerPage: DEFAULT_PAGE_SIZE,
+  };
 
   if (isLoading) {
     return (
@@ -64,18 +71,15 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
           </div>
         </div>
       </section>
-      {totalPages > 1 && (
-        <CategoryArticlesPagination
-          meta={
-            data?.meta || {
-              totalItems: 0,
-              totalPages: 0,
-              currentPage: 0,
-              itemsPerPage: 0,
-            }
-          }
-        />
-      )}
+      <section className="py-10 sm:py-12 md:py-16">
+        <div className="container mx-auto px-2 sm:px-4">
+          <Pagination
+            currentPage={meta.currentPage}
+            totalPages={meta.totalPages}
+            onPageChange={(page) => setQuery({ page })}
+          />
+        </div>
+      </section>
     </div>
   );
 };
