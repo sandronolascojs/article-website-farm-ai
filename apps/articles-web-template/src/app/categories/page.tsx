@@ -4,10 +4,12 @@ import { prefetchCategories } from '@/hooks/http/categories/useCategories';
 import { queryClient } from '@/lib/queryClient';
 import { Metadata } from 'next';
 import { CategoriesView } from '@/views/categories/CategoriesView';
+import { defaultSearchParamsCache } from '@/lib/defaultSearchParamsCache';
+import { env } from '../../../env.mjs';
 
-const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'My Articles';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_NAME = env.NEXT_PUBLIC_SITE_NAME;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: `Categories | ${SITE_NAME}`,
@@ -26,9 +28,15 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/categories` },
 };
 
-export default async function CategoriesPage() {
+interface CategoriesPageProps {
+  searchParams: Record<string, string | string[] | undefined>;
+}
+
+export default async function CategoriesPage({ searchParams }: CategoriesPageProps) {
+  const queryParams = defaultSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
-  await prefetchCategories(tsrQueryClient, SITE_ID);
+  await prefetchCategories(tsrQueryClient, SITE_ID, queryParams);
+
   return (
     <main className="min-h-screen w-full bg-white">
       <HydrationBoundary state={dehydrate(queryClient)}>

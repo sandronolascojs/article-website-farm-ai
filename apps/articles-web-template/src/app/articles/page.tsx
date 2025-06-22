@@ -5,10 +5,11 @@ import { ArticlesView } from '@/views/articles/ArticlesView';
 import { Metadata } from 'next';
 import { queryClient } from '@/lib/queryClient';
 import { articlesViewSearchParamsCache } from '@/lib/searchParamsCacheTypes/articlesViewCache';
+import { env } from '../../../env.mjs';
 
-const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'My Articles';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_NAME = env.NEXT_PUBLIC_SITE_NAME;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: `Articles | ${SITE_NAME}`,
@@ -32,10 +33,9 @@ interface ArticlesPageProps {
 }
 
 export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
-  const parsed = articlesViewSearchParamsCache.parse(searchParams);
+  const params = articlesViewSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
-
-  await prefetchArticles(tsrQueryClient, SITE_ID, parsed);
+  await prefetchArticles(tsrQueryClient, SITE_ID, params);
   return (
     <main className="min-h-screen w-full bg-white">
       <HydrationBoundary state={dehydrate(queryClient)}>

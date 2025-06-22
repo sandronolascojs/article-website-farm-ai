@@ -8,19 +8,21 @@ import { queryClient } from '@/lib/queryClient';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
+import { env } from '../../../../env.mjs';
 
 interface ArticlePageProps {
   params: Promise<{ category: string; slug: string }>;
 }
 
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
+
 function getArticleUrl(category: string, slug: string) {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
-  return `${base}/${encodeURIComponent(category)}/${slug}`;
+  return `${SITE_URL}/${encodeURIComponent(category)}/${slug}`;
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
   const tsrQueryClient = tsr.initQueryClient(queryClient);
   await prefetchArticleBySlug(tsrQueryClient, SITE_ID, slug);
   const article = queryClient.getQueryData(['article', SITE_ID, slug]) as
@@ -57,7 +59,7 @@ function ArticleDetails({
   category: string;
   slug: string;
 }) {
-  const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
+  const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
   const url = getArticleUrl(category, slug);
   const jsonLd = {
     '@context': 'https://schema.org',

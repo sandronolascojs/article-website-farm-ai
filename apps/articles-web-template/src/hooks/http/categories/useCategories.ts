@@ -1,7 +1,7 @@
-import { DEFAULT_PAGINATION_QUERY } from '@/constants/queryParams.constants';
 import { tsr } from '../../../lib/tsrClient';
 import type { ClientInferResponseBody } from '@ts-rest/core';
 import type { contract } from '@auto-articles/ts-rest';
+import type { DefaultSearchParams } from '@auto-articles/utils';
 
 export const CATEGORIES_QUERY_KEY = (websiteId: string) => ['categories', websiteId];
 
@@ -10,7 +10,7 @@ export type UseCategoriesResponse = ClientInferResponseBody<
   200
 >;
 
-export const useCategories = (websiteId: string, queryParams: typeof DEFAULT_PAGINATION_QUERY) => {
+export const useCategories = (websiteId: string, queryParams: DefaultSearchParams) => {
   const query = tsr.categoriesContract.getCategories.useQuery({
     queryKey: CATEGORIES_QUERY_KEY(websiteId),
     queryData: {
@@ -30,16 +30,13 @@ export const useCategories = (websiteId: string, queryParams: typeof DEFAULT_PAG
 export const prefetchCategories = async (
   tsrQueryClient: ReturnType<typeof tsr.initQueryClient>,
   websiteId: string,
-  query?: {
-    page: number;
-    limit: number;
-  },
+  query: DefaultSearchParams,
 ) => {
   await tsrQueryClient.categoriesContract.getCategories.prefetchQuery({
     queryKey: CATEGORIES_QUERY_KEY(websiteId),
     queryData: {
       params: { websiteId },
-      query: query || DEFAULT_PAGINATION_QUERY,
+      query,
     },
   });
 };

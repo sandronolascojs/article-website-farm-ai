@@ -6,26 +6,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import type { OrderBy } from '@/constants/queryParams.constants';
-import { parseAsInteger, parseAsStringLiteral } from 'nuqs/server';
-import { ORDER_BY_OPTIONS } from '@/constants/queryParams.constants';
 import { useQueryStates } from 'nuqs';
 import { PaginationMeta } from '@auto-articles/utils';
+import { defaultSearchParamsConfig } from '@/lib/defaultSearchParamsCache';
 
 interface CategoryArticlesPaginationProps {
   meta: PaginationMeta;
-  orderBy: OrderBy;
 }
 
-export const CategoryArticlesPagination = ({ meta, orderBy }: CategoryArticlesPaginationProps) => {
-  const [searchParams, setSearchParams] = useQueryStates({
-    page: parseAsInteger,
-    limit: parseAsInteger,
-    orderBy: parseAsStringLiteral(ORDER_BY_OPTIONS),
-  });
+export const CategoryArticlesPagination = ({ meta }: CategoryArticlesPaginationProps) => {
+  const [searchParams, setSearchParams] = useQueryStates(defaultSearchParamsConfig);
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ ...searchParams, page: newPage, limit: meta.itemsPerPage, orderBy });
+    setSearchParams({ ...searchParams, page: newPage, limit: meta.itemsPerPage });
   };
 
   return (

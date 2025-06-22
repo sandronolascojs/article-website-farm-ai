@@ -1,15 +1,17 @@
 'use client';
 
 import { useCategories } from '@/hooks/http/categories/useCategories';
-import { DEFAULT_PAGINATION_QUERY } from '@/constants/queryParams.constants';
 import { CategoryCard } from '@/components/CategoryCard';
+import { defaultSearchParamsConfig } from '@/lib/defaultSearchParamsCache';
+import { useQueryStates } from 'nuqs';
 
 interface CategoriesViewProps {
   siteId: string;
 }
 
 export const CategoriesView = ({ siteId }: CategoriesViewProps) => {
-  const { data, isLoading, isError } = useCategories(siteId, DEFAULT_PAGINATION_QUERY);
+  const [params] = useQueryStates(defaultSearchParamsConfig);
+  const { data, isLoading, isError } = useCategories(siteId, params);
   const categories = data?.items || [];
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;

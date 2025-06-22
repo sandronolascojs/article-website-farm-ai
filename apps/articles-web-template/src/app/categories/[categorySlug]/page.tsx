@@ -3,8 +3,8 @@ import { tsr } from '@/lib/tsrClient';
 import { prefetchArticlesFromCategory } from '@/hooks/http/articles/useArticlesFromCategory';
 import { Metadata } from 'next';
 import { queryClient } from '@/lib/queryClient';
-import { categoryArticlesViewSearchParamsCache } from '@/lib/searchParamsCacheTypes/categoryArticlesViewCache';
 import { CategoryArticlesView } from '@/views/categories/CategoryArticlesView';
+import { defaultSearchParamsCache } from '@/lib/defaultSearchParamsCache';
 
 const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'My Articles';
@@ -43,25 +43,15 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { categorySlug } = await params;
-  const { page, limit, orderBy } = categoryArticlesViewSearchParamsCache.parse(searchParams);
+  const safeParams = defaultSearchParamsCache.parse(searchParams);
   const tsrQueryClient = tsr.initQueryClient(queryClient);
 
-  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, categorySlug, {
-    page,
-    limit,
-    orderBy,
-  });
+  await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, categorySlug, safeParams);
 
   return (
     <main className="min-h-screen w-full bg-white">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <CategoryArticlesView
-          siteId={SITE_ID}
-          categorySlug={categorySlug}
-          page={page}
-          limit={limit}
-          orderBy={orderBy}
-        />
+        <CategoryArticlesView siteId={SITE_ID} categorySlug={categorySlug} />
       </HydrationBoundary>
     </main>
   );

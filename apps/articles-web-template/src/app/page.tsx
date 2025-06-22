@@ -3,11 +3,12 @@ import { ArticleCard } from '@/components/ArticleCard';
 import { CategoriesSection } from '@/components/CategoriesSection';
 import { fetchAllArticles, fetchCategories } from '@/lib/api';
 import { Metadata } from 'next';
+import { env } from '../../env.mjs';
 
-const SITE_ID = process.env.NEXT_PUBLIC_SITE_ID || 'default';
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'My Articles';
-const SITE_BANNER = process.env.NEXT_PUBLIC_SITE_BANNER || '/banner.jpg';
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
+const SITE_NAME = env.NEXT_PUBLIC_SITE_NAME;
+const SITE_BANNER = env.NEXT_PUBLIC_SITE_BANNER;
+const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: SITE_NAME,

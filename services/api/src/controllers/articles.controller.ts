@@ -20,6 +20,8 @@ export const articlesRouter = server.router(contract.articlesContract, {
     const { websiteId } = params;
     const { page, limit, search, orderBy } = query;
 
+    console.log('query', query);
+
     const articlesService = new ArticlesService(logger);
     const { items, meta } = await articlesService.getArticlesByWebsiteId({
       websiteId,

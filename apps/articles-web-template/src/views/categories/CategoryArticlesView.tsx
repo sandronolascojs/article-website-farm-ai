@@ -2,29 +2,18 @@
 
 import { useArticlesFromCategory } from '@/hooks/http/articles/useArticlesFromCategory';
 import { CategoryArticlesPagination } from './CategoryArticlesPagination';
-import type { OrderBy } from '@/constants/queryParams.constants';
 import { ArticleCard } from '@/components/ArticleCard';
+import { useQueryStates } from 'nuqs';
+import { defaultSearchParamsConfig } from '@/lib/defaultSearchParamsCache';
 
 interface CategoryArticlesViewProps {
   siteId: string;
   categorySlug: string;
-  page: number;
-  limit: number;
-  orderBy: OrderBy;
 }
 
-export const CategoryArticlesView = ({
-  siteId,
-  categorySlug,
-  page,
-  limit,
-  orderBy,
-}: CategoryArticlesViewProps) => {
-  const { data, isLoading, isError, error } = useArticlesFromCategory(siteId, categorySlug, {
-    page,
-    limit,
-    orderBy,
-  });
+export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesViewProps) => {
+  const [params] = useQueryStates(defaultSearchParamsConfig);
+  const { data, isLoading, isError } = useArticlesFromCategory(siteId, categorySlug, params);
   const articles = data?.items || [];
   const totalPages = data?.meta?.totalPages || 0;
 
@@ -44,7 +33,6 @@ export const CategoryArticlesView = ({
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">Failed to load articles</p>
-          <p className="text-gray-600">{error?.message}</p>
         </div>
       </div>
     );
@@ -86,7 +74,6 @@ export const CategoryArticlesView = ({
               itemsPerPage: 0,
             }
           }
-          orderBy={orderBy}
         />
       )}
     </div>
