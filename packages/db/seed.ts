@@ -69,7 +69,12 @@ async function seedWebsites() {
       const existing = await db
         .select()
         .from(authors)
-        .where(eq(authors.name, author.name))
+        .where(
+          and(
+            eq(authors.name, author.name),
+            eq(authors.websiteId, author.websiteId)
+          )
+        )
         .limit(1);
 
       if (existing.length === 0) {
