@@ -4,6 +4,7 @@ import { WebsitesService } from './websites.service';
 import { contract } from '@auto-articles/ts-rest';
 import { NotFoundError } from '@/utils/errors/NotFoundError';
 import type { ArticlesQuery } from '@/types/queryTypes/articlesQuery';
+import { env } from '@/config/env.config';
 
 export class ArticlesService {
   private readonly articlesRepository: ArticlesRepository;
@@ -15,7 +16,9 @@ export class ArticlesService {
   }
 
   async getArticleBySlug({ websiteId, slug }: { websiteId: string; slug: string }) {
-    const website = await this.websitesService.getWebsiteByWebsiteId({ websiteId });
+    const website = await this.websitesService.getWebsiteByWebsiteId({
+      websiteId,
+    });
     if (!website) {
       throw new NotFoundError({
         message: 'Website not found',
@@ -23,7 +26,10 @@ export class ArticlesService {
       });
     }
 
-    const article = await this.articlesRepository.getArticleBySlug({ websiteId, slug });
+    const article = await this.articlesRepository.getArticleBySlug({
+      websiteId,
+      slug,
+    });
     if (!article) {
       throw new NotFoundError({
         message: 'Article not found',
@@ -31,11 +37,29 @@ export class ArticlesService {
       });
     }
 
-    return article;
+    return {
+      articleSlug: article.slug,
+      title: article.title,
+      summary: article.summary,
+      content: article.content,
+      keywords: article.keywords,
+      category: {
+        name: article.category,
+        slug: article.categorySlug,
+      },
+      imageUrl: article.imageKey
+        ? `${env.SUPABASE_BUCKET_IMAGES_URL}/${article.imageKey}`
+        : undefined,
+      websiteId: article.websiteId,
+      author: article.authorName,
+      publishedAt: article.publishedAt?.toISOString() ?? new Date().toISOString(),
+    };
   }
 
   async getArticlesByWebsiteId({ websiteId, query }: { websiteId: string; query: ArticlesQuery }) {
-    const website = await this.websitesService.getWebsiteByWebsiteId({ websiteId });
+    const website = await this.websitesService.getWebsiteByWebsiteId({
+      websiteId,
+    });
     if (!website) {
       throw new NotFoundError({
         message: 'Website not found',
@@ -43,7 +67,36 @@ export class ArticlesService {
       });
     }
 
-    return await this.articlesRepository.getArticlesByWebsiteId({ websiteId, query });
+    const articles = await this.articlesRepository.getArticlesByWebsiteId({
+      websiteId,
+      query,
+    });
+
+    return {
+      items: articles.items.map((article) => ({
+        articleSlug: article.slug,
+        title: article.title,
+        summary: article.summary,
+        content: article.content,
+        keywords: article.keywords,
+        category: {
+          name: article.category,
+          slug: article.categorySlug,
+        },
+        imageUrl: article.imageKey
+          ? `${env.SUPABASE_BUCKET_IMAGES_URL}/${article.imageKey}`
+          : undefined,
+        websiteId: article.websiteId,
+        author: article.authorName,
+        publishedAt: article.publishedAt?.toISOString() ?? new Date().toISOString(),
+      })),
+      meta: {
+        totalItems: articles.total,
+        totalPages: Math.ceil(articles.total / query.limit),
+        currentPage: query.page,
+        itemsPerPage: query.limit,
+      },
+    };
   }
 
   async getArticlesByCategory({
@@ -53,6 +106,37 @@ export class ArticlesService {
     category: string;
     pagination: Pagination;
   }) {
-    return await this.articlesRepository.getArticlesByCategory({ category, pagination });
+    const articles = await this.articlesRepository.getArticlesByCategory({
+      category,
+      pagination,
+    });
+
+    return {
+      items: articles.items.map((article) => ({
+        articleSlug: article.slug,
+        title: article.title,
+        summary: article.summary,
+        content: article.content,
+        keywords: article.keywords,
+        category: {
+          name: article.category,
+          slug: article.categorySlug,
+        },
+        imageUrl: article.imageKey
+          ? `${env.SUPABASE_BUCKET_IMAGES_URL}/${article.imageKey}`
+          : undefined,
+        websiteId: article.websiteId,
+        author: article.authorName,
+        publishedAt: article.publishedAt?.toISOString() ?? new Date().toISOString(),
+        createdAt: article.createdAt?.toISOString() ?? new Date().toISOString(),
+        updatedAt: article.updatedAt?.toISOString() ?? new Date().toISOString(),
+      })),
+      meta: {
+        totalItems: articles.total,
+        totalPages: Math.ceil(articles.total / pagination.limit),
+        currentPage: pagination.page,
+        itemsPerPage: pagination.limit,
+      },
+    };
   }
 }

@@ -1,97 +1,77 @@
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import Link from 'next/link';
+
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'SiteName';
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold">TechBlog</h3>
-            <p className="text-gray-400">
-              Your go-to source for the latest in technology, design, business, and lifestyle.
+    <footer className="bg-gray-900 text-white py-10 sm:py-12 md:py-16">
+      <div className="container mx-auto px-8 sm:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Newsletter Section */}
+          <div className="md:col-span-1">
+            <h4 className="font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Newsletter</h4>
+            <p className="text-gray-400 mb-2 sm:mb-4 text-sm sm:text-base">
+              Stay updated with our latest articles
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Mail className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Categories</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Technology
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Design
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Business
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Lifestyle
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Team
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Careers
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Newsletter</h4>
-            <p className="text-gray-400 mb-4">Stay updated with our latest articles</p>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:border-blue-500"
+                className="flex-1 px-3 sm:px-4 py-2 bg-gray-800 border border-gray-700 rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none focus:outline-none focus:border-blue-500 text-sm sm:text-base"
               />
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-r-lg transition-colors">
+              <button className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-b-lg sm:rounded-r-lg sm:rounded-bl-none transition-colors text-sm sm:text-base">
                 Subscribe
               </button>
             </div>
           </div>
+
+          <div>
+            <h4 className="font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Links</h4>
+            <ul className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
+              <li>
+                <Link href="/" className="hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/articles" className="hover:text-white transition-colors">
+                  Articles
+                </Link>
+              </li>
+              <li>
+                <Link href="/categories" className="hover:text-white transition-colors">
+                  Categories
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal Links */}
+          <div>
+            <h4 className="font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Legal</h4>
+            <ul className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
+              <li>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="hover:text-white transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookie-policy" className="hover:text-white transition-colors">
+                  Cookie Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 TechBlog. All rights reserved.</p>
+        <div className="border-t border-gray-800 mt-8 sm:mt-12 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm">
+          <p>
+            &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

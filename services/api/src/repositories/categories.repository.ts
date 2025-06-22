@@ -1,24 +1,12 @@
-import { articles, categories, DB } from '@auto-articles/db';
-import { DatabaseService } from '@auto-articles/shared';
+import { and, count, desc, eq, isNotNull, isNull, sql } from 'drizzle-orm';
+import { articles, categories } from '@auto-articles/db';
+import { BaseRepository } from '@auto-articles/shared';
 import { DatabaseName } from '@auto-articles/types';
 import { Logger, type Pagination } from '@auto-articles/utils';
-import { and, count, desc, eq, isNotNull, isNull, sql } from 'drizzle-orm';
 
-export class CategoriesRepository {
-  private readonly db: DB;
-
-  constructor(private readonly logger: Logger) {
-    this.logger = logger;
-
-    const dbService = DatabaseService.getInstance(logger);
-    if (!dbService.getRegisteredServices().has(CategoriesRepository.name)) {
-      dbService.registerService({
-        serviceName: CategoriesRepository.name,
-        databaseName: DatabaseName.HEALTH_FOOD_BLOG,
-      });
-    }
-
-    this.db = dbService.getConnection(CategoriesRepository.name);
+export class CategoriesRepository extends BaseRepository {
+  constructor(logger: Logger) {
+    super(logger, CategoriesRepository.name, DatabaseName.HEALTH_FOOD_BLOG);
   }
 
   async getCategoryBySlug({ slug, websiteId }: { slug: string; websiteId: string }) {

@@ -1,19 +1,30 @@
-import { DEFAULT_PAGINATION_QUERY } from '@/constants/pagination.constants';
+import { DEFAULT_PAGINATION_QUERY } from '@/constants/queryParams.constants';
 import { tsr } from '../../../lib/tsrClient';
+import type { ClientInferResponseBody } from '@ts-rest/core';
+import type { contract } from '@auto-articles/ts-rest';
 
 export const CATEGORIES_QUERY_KEY = (websiteId: string) => ['categories', websiteId];
 
-export const useCategories = (
-  websiteId: string,
-  query?: Record<string, string | number | undefined>,
-) => {
-  return tsr.categoriesContract.getCategories.useQuery({
+export type UseCategoriesResponse = ClientInferResponseBody<
+  typeof contract.categoriesContract.getCategories,
+  200
+>;
+
+export const useCategories = (websiteId: string, queryParams: typeof DEFAULT_PAGINATION_QUERY) => {
+  const query = tsr.categoriesContract.getCategories.useQuery({
     queryKey: CATEGORIES_QUERY_KEY(websiteId),
     queryData: {
       params: { websiteId },
-      query: query || DEFAULT_PAGINATION_QUERY,
+      query: queryParams,
     },
   });
+  return {
+    data: query.data?.body,
+    isLoading: query.isLoading,
+    isError: query.isError,
+    isSuccess: query.isSuccess,
+    error: query.error,
+  };
 };
 
 export const prefetchCategories = async (

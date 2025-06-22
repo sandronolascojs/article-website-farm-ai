@@ -1,5 +1,5 @@
 import type { HealthFoodArticleGeneratorAgent } from '@auto-articles/ai/src/mastra';
-import { HealthFoodAppCategory, Language, WebsiteId } from '@auto-articles/types';
+import { Language, WebsiteId } from '@auto-articles/types';
 import type { Logger } from '@auto-articles/utils';
 import { CategoriesRepository } from '@/repositories/categories.repository';
 import { ArticlesRepository } from '@/repositories/articles.repository';
@@ -7,12 +7,14 @@ import { env } from '@/config/env.config';
 import { SupabaseStorageService } from '@auto-articles/shared';
 import { HealthContentImageGeneratorService } from './healthContentImageGenerator.service';
 import { ImageCompressorService } from './imageCompressor.service';
+import { AuthorRepository } from '@/repositories/author.repository';
 
 export class GenerateHealthContentService {
   private readonly logger: Logger;
   private readonly agent: HealthFoodArticleGeneratorAgent;
   private readonly categoriesRepository: CategoriesRepository;
   private readonly articlesRepository: ArticlesRepository;
+  private readonly authorRepository: AuthorRepository;
   private readonly healthContentImageGeneratorService: HealthContentImageGeneratorService;
   private readonly supabaseStorageService: SupabaseStorageService;
   private readonly imageCompressorService: ImageCompressorService;
@@ -22,6 +24,7 @@ export class GenerateHealthContentService {
     this.agent = agent;
     this.categoriesRepository = new CategoriesRepository(logger);
     this.articlesRepository = new ArticlesRepository(logger);
+    this.authorRepository = new AuthorRepository(logger);
     this.healthContentImageGeneratorService = new HealthContentImageGeneratorService(logger);
     this.supabaseStorageService = new SupabaseStorageService({
       supabaseUrl: env.SUPABASE_URL,
@@ -41,9 +44,14 @@ export class GenerateHealthContentService {
       });
       const existingTitles = existingTitlesFromDb.map((article) => article.title);
 
+      const existingCategoriesFromDb = await this.categoriesRepository.getCategoriesByWebsiteId({
+        websiteId: WebsiteId.HEALTH_FOOD_BLOG,
+      });
+      const existingCategories = existingCategoriesFromDb.map((category) => category.name);
+
       const result = await this.agent.generateArticle({
         existingTitles,
-        categories: Object.values(HealthFoodAppCategory),
+        categories: existingCategories,
         language: Language.ENGLISH_US,
         recentCategories: recentUsedCategories,
         recentPrimaryWords: recentUsedPrimaryWords,
@@ -51,7 +59,6 @@ export class GenerateHealthContentService {
 
       recentUsedCategories.push(result.category);
       recentUsedPrimaryWords.push(...result.keywords);
-
       this.logger.info(`Generated title: ${result.title}`);
 
       let category = await this.categoriesRepository.getCategoryByNameAndWebsiteId({
@@ -71,6 +78,11 @@ export class GenerateHealthContentService {
         );
       }
 
+      if (!category) {
+        this.logger.error('No category found');
+        continue;
+      }
+
       const imageGenerated = await this.healthContentImageGeneratorService.generateImage({
         prompt: result.imagePrompt,
         aspectRatio: '16:9',
@@ -88,16 +100,31 @@ export class GenerateHealthContentService {
         contentType: compressedImage.contentType,
       });
 
+      const authors = await this.authorRepository.getAuthorByWebsiteId({
+        websiteId: WebsiteId.HEALTH_FOOD_BLOG,
+      });
+      if (authors.length === 0) {
+        this.logger.error('No author found for website');
+        continue;
+      }
+
+      const randomAuthor = authors[Math.floor(Math.random() * authors.length)];
+      if (!randomAuthor) {
+        this.logger.error('No author found for website');
+        continue;
+      }
+
       await this.articlesRepository.createArticle({
         title: result.title,
         content: result.content,
         keywords: result.keywords,
         summary: result.summary,
-        imageUrl: imageKey,
+        imageKey: imageKey,
         slug: result.slug,
         processedAt: new Date(),
-        categoryId: category?.categoryId,
+        categoryId: category.categoryId,
         websiteId: WebsiteId.HEALTH_FOOD_BLOG,
+        authorId: randomAuthor.authorId,
       });
 
       this.logger.info(`Inserted article: ${result.title}`);
