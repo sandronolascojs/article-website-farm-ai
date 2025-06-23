@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 import { CookieConsent } from '@/components/CookieConsent';
-import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { QueryProvider } from '@/components/QueryProvider';
 import { Header } from '@/components/Header';
@@ -11,19 +10,28 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { THEME_STORAGE_KEY } from '@/constants/localStorage.constants';
 import { env } from '../../env.mjs';
 import { Inter } from 'next/font/google';
+import { SystemDarkModeListener } from '@/components/SystemDarkModeListener';
 import '@/styles/globals.default.css';
 import '@/styles/globals.green.css';
 import '@/styles/globals.blue.css';
 import '@/styles/globals.violet.css';
 import '@/styles/globals.red.css';
 import '@/styles/globals.yellow.css';
-import { SystemDarkModeListener } from '@/components/SystemDarkModeListener';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google AdSense */}
+        <meta name="google-adsense-account" content={env.NEXT_PUBLIC_ADSENSE_CLIENT} />
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={cn(inter.className, 'min-h-screen antialiased')}>
         <ThemeProvider
           attribute="data-theme"
@@ -49,21 +57,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </QueryProvider>
           </NuqsAdapter>
         </ThemeProvider>
+        <CookieConsent />
       </body>
-      <CookieConsent />
-      <Script id="adsense-loader" strategy="afterInteractive">
-        {`
-            window.addEventListener('consentChanged', function() {
-              if (!document.querySelector("#ads-client")) {
-                const s = document.createElement("script");
-                s.id = "ads-client";
-                s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${process.env.NEXT_PUBLIC_AD_CLIENT}";
-                s.crossOrigin = "anonymous";
-                document.head.appendChild(s);
-              }
-            });
-          `}
-      </Script>
     </html>
   );
 }
