@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -18,7 +19,7 @@ export const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-primary/10 bg-white sticky top-0 z-50 min-h-16 max-h-20 w-full">
+    <header className="border-b border-border bg-sidebar sticky top-0 z-50 min-h-16 max-h-20 w-full">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
         <Link
           href="/"
@@ -38,8 +39,8 @@ export const Header = () => {
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={`Go to ${link.label}`}
                 className={cn(
-                  'border border-transparent rounded-md px-3 py-2 flex items-center gap-2',
-                  isActive && 'border-primary/10 text-primary',
+                  'border border-transparent text-muted-foreground rounded-md px-3 py-2 flex items-center gap-2 hover:bg-muted',
+                  isActive && 'border-border text-primary-foreground',
                 )}
               >
                 <link.icon className="h-5 w-5" aria-hidden />

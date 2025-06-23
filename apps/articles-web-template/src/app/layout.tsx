@@ -2,34 +2,48 @@ import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { CookieConsent } from '@/components/CookieConsent';
 import Script from 'next/script';
-import '../styles/globals.css';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { QueryProvider } from '@/components/QueryProvider';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/Sidebar';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { THEME_STORAGE_KEY } from '@/constants/localStorage.constants';
+import { loadTheme } from '@/styles/loadTheme';
+import { env } from '../../env.mjs';
+import { ThemeAvailable } from '@auto-articles/types';
 
 const inter = Inter({ subsets: ['latin'] });
+const theme = env.NEXT_PUBLIC_THEME as ThemeAvailable;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  await loadTheme(theme);
   return (
-    <html lang="en">
-      <body className={cn(inter.className, 'bg-gray-100 text-gray-900 min-h-screen')}>
-        <NuqsAdapter>
-          <QueryProvider>
-            <SidebarProvider>
-              <div className="md:hidden">
-                <AppSidebar />
-              </div>
-              <div className="flex flex-col min-h-screen w-full">
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-              </div>
-            </SidebarProvider>
-          </QueryProvider>
-        </NuqsAdapter>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(inter.className, 'min-h-screen antialiased')}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          storageKey={THEME_STORAGE_KEY}
+        >
+          <NuqsAdapter>
+            <QueryProvider>
+              <SidebarProvider>
+                <div className="md:hidden">
+                  <AppSidebar />
+                </div>
+                <div className="flex flex-col min-h-screen w-full">
+                  <Header />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                </div>
+              </SidebarProvider>
+            </QueryProvider>
+          </NuqsAdapter>
+        </ThemeProvider>
         <CookieConsent />
         <Script id="adsense-loader" strategy="afterInteractive">
           {`

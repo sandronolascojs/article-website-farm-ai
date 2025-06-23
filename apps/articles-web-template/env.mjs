@@ -1,3 +1,4 @@
+import { ThemeAvailable } from '@auto-articles/types';
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
 
@@ -9,6 +10,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SITE_NAME: z.string(),
     NEXT_PUBLIC_SITE_BANNER: z.string(),
     NEXT_PUBLIC_API_BASE: z.string().url(),
+    NEXT_PUBLIC_THEME: z.nativeEnum(ThemeAvailable),
   },
   runtimeEnv: {
     NEXT_PUBLIC_API_BASE: process.env.NEXT_PUBLIC_API_BASE,
@@ -17,5 +19,6 @@ export const env = createEnv({
     NEXT_PUBLIC_AD_CLIENT: process.env.NEXT_PUBLIC_AD_CLIENT,
     NEXT_PUBLIC_SITE_NAME: process.env.NEXT_PUBLIC_SITE_NAME,
     NEXT_PUBLIC_SITE_BANNER: process.env.NEXT_PUBLIC_SITE_BANNER,
+    NEXT_PUBLIC_THEME: process.env.NEXT_PUBLIC_THEME,
   },
 });

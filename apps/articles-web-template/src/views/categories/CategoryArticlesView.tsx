@@ -26,10 +26,10 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading articles...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-muted-foreground mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading articles...</p>
         </div>
       </div>
     );
@@ -37,9 +37,9 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
 
   if (isError) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-600 mb-4">Failed to load articles</p>
+          <p className="text-destructive mb-4">Failed to load articles</p>
         </div>
       </div>
     );
@@ -49,14 +49,14 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <section className="py-10 sm:py-12 md:py-16">
         <div className="container mx-auto px-2 sm:px-4">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2 sm:mb-4">
               {titleFromSlug}
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
               Browse all articles in this category
             </p>
           </div>
