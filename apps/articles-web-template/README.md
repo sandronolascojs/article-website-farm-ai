@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Articles Web Template
+
+This app is a **Next.js-based template for building multi-site web article platforms**. It enables rapid creation and deployment of content-driven websites, leveraging AI to generate SEO-optimized articles and images. The platform is ideal for scalable, automated, and monetizable content sites.
+
+See the [root README](../../README.md) for a high-level overview of the monorepo and its architecture.
+
+---
+
+## Features
+
+- Multi-site support
+- AI-powered article and image generation
+- SEO best practices (Open Graph, Twitter cards, schema.org)
+- Modern, responsive UI (Tailwind CSS, Radix UI)
+- RESTful API integration
+- Ad integration and cookie consent
+- TypeScript, modular code, and SOLID principles
+
+---
+
+## Main Pages & Components
+
+- **Home:** Featured and recent articles, top categories
+- **Articles Listing:** Search, filter, and paginate all articles
+- **Categories Listing:** Browse and filter categories
+- **Article Detail:** SEO-optimized, markdown-rendered article pages
+- **Category Articles:** View articles by category
+- **UI Components:** Header, Footer, Sidebar, HeroSection, ArticleCard, CategoryCard, Pagination, CookieConsent, and more
+
+---
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
+2. **Set environment variables:**
+   - Copy and configure `.env` or use `env.mjs` for required keys
+3. **Run the development server:**
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Customization & Theming
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Change site name, theme, and branding via environment variables
+- Multiple color themes available (default, green, blue, violet, red, yellow)
+- All text and UI are fully customizable
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+- Deploy on [Vercel](https://vercel.com/) or any platform supporting Next.js 15
+- For production, ensure all environment variables are set and background jobs are running
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This app is licensed for commercial use. See the root README for more details.
