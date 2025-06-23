@@ -86,7 +86,7 @@ export const ArticlesFilters = ({
             </SelectContent>
           </Select>
         </div>
-        <Button variant="outline" onClick={onClear} aria-label="Clear filters" className="h-10">
+        <Button variant="secondary" onClick={onClear} aria-label="Clear filters" className="h-10">
           Clear Filters
         </Button>
       </div>

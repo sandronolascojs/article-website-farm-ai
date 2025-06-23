@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import { Inter } from 'next/font/google';
 import { CookieConsent } from '@/components/CookieConsent';
 import Script from 'next/script';
 import { NuqsAdapter } from 'nuqs/adapters/next';
@@ -10,32 +9,38 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/Sidebar';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { THEME_STORAGE_KEY } from '@/constants/localStorage.constants';
-import { loadTheme } from '@/styles/loadTheme';
 import { env } from '../../env.mjs';
-import { ThemeAvailable } from '@auto-articles/types';
+import { Inter } from 'next/font/google';
+import '@/styles/globals.default.css';
+import '@/styles/globals.green.css';
+import '@/styles/globals.blue.css';
+import '@/styles/globals.violet.css';
+import '@/styles/globals.red.css';
+import '@/styles/globals.yellow.css';
+import { SystemDarkModeListener } from '@/components/SystemDarkModeListener';
 
 const inter = Inter({ subsets: ['latin'] });
-const theme = env.NEXT_PUBLIC_THEME as ThemeAvailable;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  await loadTheme(theme);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'min-h-screen antialiased')}>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
+          attribute="data-theme"
+          defaultTheme={env.NEXT_PUBLIC_THEME}
           enableSystem
           disableTransitionOnChange
           storageKey={THEME_STORAGE_KEY}
+          themes={['default', 'green', 'blue', 'violet', 'red', 'yellow']}
         >
+          <SystemDarkModeListener />
           <NuqsAdapter>
             <QueryProvider>
               <SidebarProvider>
                 <div className="md:hidden">
                   <AppSidebar />
                 </div>
-                <div className="flex flex-col min-h-screen w-full">
+                <div className={cn('flex flex-col min-h-screen w-full')}>
                   <Header />
                   <main className="flex-1">{children}</main>
                   <Footer />
@@ -44,9 +49,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </QueryProvider>
           </NuqsAdapter>
         </ThemeProvider>
-        <CookieConsent />
-        <Script id="adsense-loader" strategy="afterInteractive">
-          {`
+      </body>
+      <CookieConsent />
+      <Script id="adsense-loader" strategy="afterInteractive">
+        {`
             window.addEventListener('consentChanged', function() {
               if (!document.querySelector("#ads-client")) {
                 const s = document.createElement("script");
@@ -57,8 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               }
             });
           `}
-        </Script>
-      </body>
+      </Script>
     </html>
   );
 }

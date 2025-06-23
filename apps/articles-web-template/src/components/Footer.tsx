@@ -6,7 +6,7 @@ const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'SiteName';
 
 export const Footer = () => {
   return (
-    <footer className="bg-sidebar text-white py-10 sm:py-12 md:py-16">
+    <footer className="bg-sidebar py-10 sm:py-12 md:py-16">
       <div className="container mx-auto px-8 sm:px-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Newsletter Section */}
@@ -17,12 +17,12 @@ export const Footer = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-2">
               <Input type="email" placeholder="Enter your email" />
-              <Button variant="outline">Subscribe</Button>
+              <Button>Subscribe</Button>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Links</h4>
+            <h4 className="text-primary font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Links</h4>
             <ul className="space-y-1 sm:space-y-2 text-muted-foreground text-sm sm:text-base">
               <li>
                 <Link href="/" className="hover:text-primary transition-colors">
@@ -44,7 +44,7 @@ export const Footer = () => {
 
           {/* Legal Links */}
           <div>
-            <h4 className="font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Legal</h4>
+            <h4 className="text-primary font-semibold mb-2 sm:mb-4 text-base sm:text-lg">Legal</h4>
             <ul className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
               <li>
                 <Link href="/privacy" className="hover:text-primary transition-colors">

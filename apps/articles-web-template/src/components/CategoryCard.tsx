@@ -12,7 +12,7 @@ export const CategoryCard = ({ category }: Props) => {
 
   return (
     <Link href={categoryUrl} className="block group" prefetch={false}>
-      <Card className="border-border w-full max-w-xs p-0">
+      <Card className="border-border shadow-none w-full max-w-xs p-0">
         <div className="relative w-full h-40 overflow-hidden rounded-t-xl">
           <img
             src={category.imageUrl || '/file.svg'}
@@ -24,7 +24,7 @@ export const CategoryCard = ({ category }: Props) => {
           </div>
         </div>
         <CardContent className="flex flex-col justify-center flex-1 px-5 pb-4 gap-1">
-          <CardTitle className="text-lg font-extrabold text-primary group-hover:text-primary-foreground transition-colors line-clamp-2">
+          <CardTitle className="text-lg font-bold text-primary group-hover:text-primary/80 transition-colors line-clamp-2">
             {category.name}
           </CardTitle>
           <span className="text-muted-foreground text-base font-medium">

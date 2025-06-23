@@ -1,5 +1,5 @@
 import { env } from '../../env.mjs';
 
-const APP_NAME = env.NEXT_PUBLIC_SITE_NAME;
+const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
 
-export const THEME_STORAGE_KEY = `@${APP_NAME}-theme`;
+export const THEME_STORAGE_KEY = `@${SITE_ID}-theme`;

@@ -55,7 +55,7 @@ export const ArticleCard = ({ article }: Props) => {
           </div>
           <div className="flex items-center justify-between">
             <AuthorAvatar author={article.author} />
-            <span className="flex items-center space-x-1 text-primary group-hover:text-primary-foreground transition-colors font-medium text-xs sm:text-base">
+            <span className="flex items-center space-x-1 text-primary group-hover:text-primary/80 transition-colors font-medium text-xs sm:text-base">
               <span>Read more</span>
               <ArrowRight className="h-4 w-4" />
             </span>

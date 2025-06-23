@@ -40,7 +40,7 @@ export const Header = () => {
                 aria-label={`Go to ${link.label}`}
                 className={cn(
                   'border border-transparent text-muted-foreground rounded-md px-3 py-2 flex items-center gap-2 hover:bg-muted',
-                  isActive && 'border-border text-primary-foreground',
+                  isActive && 'border-border text-primary',
                 )}
               >
                 <link.icon className="h-5 w-5" aria-hidden />

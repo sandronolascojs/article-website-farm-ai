@@ -23,7 +23,7 @@ export const AppSidebar = () => {
   const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'TechBlog';
 
   return (
-    <Sidebar>
+    <Sidebar className="border-border">
       <SidebarHeader>
         <span className="text-xl font-bold">{SITE_NAME}</span>
       </SidebarHeader>
@@ -47,7 +47,9 @@ export const AppSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <span className="text-xs text-gray-400">&copy; {new Date().getFullYear()} TechBlog</span>
+        <span className="text-xs text-muted-foreground">
+          &copy; {new Date().getFullYear()} {SITE_NAME}
+        </span>
       </SidebarFooter>
     </Sidebar>
   );
