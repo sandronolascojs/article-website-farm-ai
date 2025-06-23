@@ -1,21 +1,29 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import path from 'node:path';
+import fs from 'node:fs';
+import { env } from '../../../env.mjs';
 
-export default function PrivacyPage() {
+const PLACEHOLDER_MAP = {
+  PRIVACY_EMAIL: env.NEXT_PUBLIC_PRIVACY_EMAIL,
+};
+
+function replacePlaceholders(markdown: string, map: Record<string, string>) {
+  return Object.entries(map).reduce(
+    (acc, [key, value]) => acc.replace(new RegExp(`{{${key}}}`, 'g'), value),
+    markdown,
+  );
+}
+
+export default async function PrivacyPage() {
+  const filePath = path.join(process.cwd(), 'privacy-policy.md');
+  const rawMarkdown = fs.readFileSync(filePath, 'utf-8');
+  const content = replacePlaceholders(rawMarkdown, PLACEHOLDER_MAP);
+
   return (
     <main className="min-h-screen w-full flex flex-col items-center py-8">
-      <Card className="w-full max-w-3xl p-6">
-        <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
-        <p className="mb-4">
-          This website uses cookies and other technologies to provide a better user experience. We
-          do not share personal data with third parties without consent. Please review our full
-          privacy policy for more details.
-        </p>
-        <Button asChild>
-          <Link href="/">Back to Home</Link>
-        </Button>
-      </Card>
+      <div className="max-w-3xl w-full px-4">
+        <MarkdownRenderer content={content} />
+      </div>
     </main>
   );
 }
