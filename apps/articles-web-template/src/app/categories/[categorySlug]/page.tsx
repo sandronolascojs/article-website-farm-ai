@@ -49,7 +49,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   await prefetchArticlesFromCategory(tsrQueryClient, SITE_ID, categorySlug, queryParams);
 
   return (
-    <main className="min-h-screen w-full bg-white">
+    <main className="min-h-screen w-full">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <CategoryArticlesView siteId={SITE_ID} categorySlug={categorySlug} />
       </HydrationBoundary>

@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { Calendar, NewspaperIcon, UserIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 
 interface Props {
   featuredArticle: Article;
@@ -11,20 +12,18 @@ interface Props {
 export const HeroSection = ({ featuredArticle }: Props) => {
   const articleUrl = `/${encodeURIComponent(featuredArticle.category.slug)}/${featuredArticle.articleSlug}`;
   return (
-    <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-10 sm:py-12 md:py-16">
+    <section className="bg-gradient-to-r from-background to-muted py-10 sm:py-12 md:py-16">
       <div className="w-full px-4 sm:px-8 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="space-y-4 sm:space-y-6">
-            <div className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs sm:text-sm font-medium rounded-full">
-              Featured Article
-            </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            <Badge>Featured Article</Badge>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight">
               {featuredArticle.title}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
               {featuredArticle.summary}
             </p>
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-gray-500">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <UserIcon className="h-4 w-4" />
                 <span>{featuredArticle.author}</span>

@@ -37,7 +37,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const tsrQueryClient = tsr.initQueryClient(queryClient);
   await prefetchArticles(tsrQueryClient, SITE_ID, params);
   return (
-    <main className="min-h-screen w-full bg-white">
+    <main className="min-h-screen w-full">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ArticlesView siteId={SITE_ID} />
       </HydrationBoundary>

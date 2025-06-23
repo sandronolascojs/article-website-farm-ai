@@ -7,13 +7,13 @@ interface Props {
 
 export const CategoriesSection = ({ categories }: Props) => {
   return (
-    <section className="py-10 sm:py-12 md:py-16 bg-gray-50">
+    <section className="py-10 sm:py-12 md:py-16 bg-background">
       <div className="w-full px-4 sm:px-8 md:px-12">
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2 sm:mb-4">
             Explore Categories
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
             Discover articles across different topics
           </p>
         </div>

@@ -9,6 +9,7 @@ import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
 import { env } from '../../../../env.mjs';
+import { format } from 'date-fns';
 
 interface ArticlePageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -78,13 +79,13 @@ function ArticleDetails({
       typeof article.category === 'object' ? article.category?.name : article.category || '',
   };
   return (
-    <main className="flex flex-col items-center py-10 px-2 min-h-screen bg-gray-50">
+    <main className="flex flex-col items-center py-10 px-2 min-h-screen">
       <script
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="w-full max-w-4xl bg-white rounded-2xl shadow-xs overflow-hidden mx-auto">
+      <article className="w-full max-w-4xl bg-card rounded-2xl shadow-xs overflow-hidden mx-auto">
         {article.imageUrl && (
           <img
             src={article.imageUrl}
@@ -94,17 +95,17 @@ function ArticleDetails({
         )}
         <div className="p-4 sm:p-8 pb-8 sm:pb-10">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500">
-              <span className="inline-block px-2 sm:px-3 py-1 bg-blue-100 text-blue-800 font-medium rounded-full">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
+              <Badge variant="secondary">
                 {typeof article.category === 'object'
                   ? article.category?.name
                   : article.category || ''}
-              </span>
+              </Badge>
               <span className="hidden sm:inline">•</span>
               <span>{article.author}</span>
               <span className="hidden sm:inline">•</span>
               <span>
-                {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : ''}
+                {article.publishedAt ? format(new Date(article.publishedAt), 'MMM d, yyyy') : ''}
               </span>
             </div>
           </div>
@@ -116,9 +117,7 @@ function ArticleDetails({
             </div>
             <div className="flex flex-wrap gap-2 bg-muted/40 border border-muted rounded-lg p-3">
               {article.keywords.map((keyword) => (
-                <Badge variant="outline" key={keyword} className="text-xs px-2 py-1">
-                  {keyword}
-                </Badge>
+                <Badge key={keyword}>{keyword}</Badge>
               ))}
             </div>
           </div>
@@ -140,7 +139,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   if (!article) return notFound();
 
   return (
-    <main className="min-h-screen w-full bg-gray-50">
+    <main className="min-h-screen w-full">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ArticleDetails article={article.body} category={category} slug={slug} />
       </HydrationBoundary>

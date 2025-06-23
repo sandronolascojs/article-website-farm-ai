@@ -1,38 +1,58 @@
 import { cn } from '@/lib/utils';
-import { Inter } from 'next/font/google';
 import { CookieConsent } from '@/components/CookieConsent';
 import Script from 'next/script';
-import '../styles/globals.css';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { QueryProvider } from '@/components/QueryProvider';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/Sidebar';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { THEME_STORAGE_KEY } from '@/constants/localStorage.constants';
+import { env } from '../../env.mjs';
+import { Inter } from 'next/font/google';
+import '@/styles/globals.default.css';
+import '@/styles/globals.green.css';
+import '@/styles/globals.blue.css';
+import '@/styles/globals.violet.css';
+import '@/styles/globals.red.css';
+import '@/styles/globals.yellow.css';
+import { SystemDarkModeListener } from '@/components/SystemDarkModeListener';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={cn(inter.className, 'bg-gray-100 text-gray-900 min-h-screen')}>
-        <NuqsAdapter>
-          <QueryProvider>
-            <SidebarProvider>
-              <div className="md:hidden">
-                <AppSidebar />
-              </div>
-              <div className="flex flex-col min-h-screen w-full">
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-              </div>
-            </SidebarProvider>
-          </QueryProvider>
-        </NuqsAdapter>
-        <CookieConsent />
-        <Script id="adsense-loader" strategy="afterInteractive">
-          {`
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(inter.className, 'min-h-screen antialiased')}>
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme={env.NEXT_PUBLIC_THEME}
+          enableSystem
+          disableTransitionOnChange
+          storageKey={THEME_STORAGE_KEY}
+          themes={['default', 'green', 'blue', 'violet', 'red', 'yellow']}
+        >
+          <SystemDarkModeListener />
+          <NuqsAdapter>
+            <QueryProvider>
+              <SidebarProvider>
+                <div className="md:hidden">
+                  <AppSidebar />
+                </div>
+                <div className={cn('flex flex-col min-h-screen w-full')}>
+                  <Header />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                </div>
+              </SidebarProvider>
+            </QueryProvider>
+          </NuqsAdapter>
+        </ThemeProvider>
+      </body>
+      <CookieConsent />
+      <Script id="adsense-loader" strategy="afterInteractive">
+        {`
             window.addEventListener('consentChanged', function() {
               if (!document.querySelector("#ads-client")) {
                 const s = document.createElement("script");
@@ -43,8 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               }
             });
           `}
-        </Script>
-      </body>
+      </Script>
     </html>
   );
 }

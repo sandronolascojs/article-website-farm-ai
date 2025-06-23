@@ -75,7 +75,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: ArticlesPa
           ) : (
             <PaginationItem key={page}>
               <Button
-                variant={page === currentPage ? 'default' : 'outline'}
+                variant={page === currentPage ? 'default' : 'secondary'}
                 onClick={() => page !== currentPage && onPageChange(Number(page))}
                 aria-current={page === currentPage ? 'page' : undefined}
                 size="icon"

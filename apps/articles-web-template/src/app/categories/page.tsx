@@ -38,7 +38,7 @@ export default async function CategoriesPage({ searchParams }: CategoriesPagePro
   await prefetchCategories(tsrQueryClient, SITE_ID, queryParams);
 
   return (
-    <main className="min-h-screen w-full bg-white">
+    <main className="min-h-screen w-full">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <CategoriesView siteId={SITE_ID} />
       </HydrationBoundary>
