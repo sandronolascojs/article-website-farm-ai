@@ -81,7 +81,7 @@ export class GenerateHealthContentService {
       const imageGenerated = await this.healthContentImageGeneratorService.generateImage({
         prompt: result.imagePrompt,
         aspectRatio: '16:9',
-        model: 'sd3.5-large-turbo',
+        stylePreset: 'photographic',
       });
       const compressedImage = await this.imageCompressorService.compressToWebp(
         imageGenerated.imageBuffer,
