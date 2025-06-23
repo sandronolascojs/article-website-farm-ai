@@ -20,7 +20,7 @@ export const CategoriesSection = ({ categories }: Props) => {
             Discover articles across different topics
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {categories.map((category, idx) => (
             <React.Fragment key={category.categoryId + '-' + idx}>
               <CategoryCard category={category} />

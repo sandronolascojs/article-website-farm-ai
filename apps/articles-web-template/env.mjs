@@ -4,14 +4,36 @@ import { z } from 'zod';
 
 export const env = createEnv({
   client: {
+    // Site
     NEXT_PUBLIC_SITE_ID: z.string(),
     NEXT_PUBLIC_SITE_URL: z.string().url(),
-    NEXT_PUBLIC_ADSENSE_CLIENT: z.string(),
     NEXT_PUBLIC_SITE_NAME: z.string(),
     NEXT_PUBLIC_SITE_BANNER: z.string(),
     NEXT_PUBLIC_API_BASE: z.string().url(),
+
+    // Settings
     NEXT_PUBLIC_THEME: z.nativeEnum(ThemeAvailable),
     NEXT_PUBLIC_APP_ENV: z.string(),
+
+    // Google Adsense
+    NEXT_PUBLIC_ADSENSE_CLIENT: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_LEFT: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_RIGHT: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE_1: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE_2: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_BOTTOM: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_HOME_VERTICAL_1: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLES_LIST_INLINE_1: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_ARTICLES_LIST_BOTTOM: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_CATEGORIES_LIST_INLINE_1: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_CATEGORIES_SECTION_INLINE_1: z.string(),
+    NEXT_PUBLIC_ADSENSE_SLOT_CATEGORY_ARTICLES_INLINE_1: z.string(),
+
+    // Company
+    NEXT_PUBLIC_COMPANY_NAME: z.string(),
+    NEXT_PUBLIC_COMPANY_ADDRESS: z.string(),
+    NEXT_PUBLIC_LEGAL_EMAIL: z.string(),
+    NEXT_PUBLIC_PRIVACY_EMAIL: z.string(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_API_BASE: process.env.NEXT_PUBLIC_API_BASE,
@@ -42,5 +64,11 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_ADSENSE_SLOT_CATEGORIES_SECTION_INLINE_1,
     NEXT_PUBLIC_ADSENSE_SLOT_CATEGORY_ARTICLES_INLINE_1:
       process.env.NEXT_PUBLIC_ADSENSE_SLOT_CATEGORY_ARTICLES_INLINE_1,
+
+    // Company
+    NEXT_PUBLIC_COMPANY_NAME: process.env.NEXT_PUBLIC_COMPANY_NAME,
+    NEXT_PUBLIC_COMPANY_ADDRESS: process.env.NEXT_PUBLIC_COMPANY_ADDRESS,
+    NEXT_PUBLIC_LEGAL_EMAIL: process.env.NEXT_PUBLIC_LEGAL_EMAIL,
+    NEXT_PUBLIC_PRIVACY_EMAIL: process.env.NEXT_PUBLIC_PRIVACY_EMAIL,
   },
 });

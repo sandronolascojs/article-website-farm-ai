@@ -12,7 +12,7 @@ export const CategoryCard = ({ category }: Props) => {
 
   return (
     <Link href={categoryUrl} className="block group" prefetch={false}>
-      <Card className="border-border shadow-none w-full max-w-sm p-0">
+      <Card className="max-w-sm p-0">
         <div className="relative w-full h-40 overflow-hidden rounded-t-xl">
           <img
             src={category.imageUrl || '/file.svg'}

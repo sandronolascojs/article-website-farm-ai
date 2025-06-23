@@ -28,7 +28,7 @@ export const CookieConsent = () => {
 
   return (
     <div className="fixed inset-0 flex items-end z-50">
-      <Card className="border-border">
+      <Card>
         <CardHeader>
           <CardTitle>Cookie Consent</CardTitle>
         </CardHeader>
