@@ -7,6 +7,9 @@ import { defaultSearchParamsConfig } from '@/lib/defaultSearchParamsCache';
 import { Pagination } from '@/components/Pagination';
 import type { Article } from '@auto-articles/types';
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, type PaginationMeta } from '@auto-articles/utils';
+import { AdComponent } from '@/components/AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
+import React from 'react';
 
 interface CategoryArticlesViewProps {
   siteId: string;
@@ -66,7 +69,19 @@ export const CategoryArticlesView = ({ siteId, categorySlug }: CategoryArticlesV
                 No articles found.
               </div>
             ) : (
-              articles.map((article) => <ArticleCard key={article.articleSlug} article={article} />)
+              articles.map((article, idx) => (
+                <React.Fragment key={article.articleSlug + '-' + idx}>
+                  <ArticleCard article={article} />
+                  {idx === 3 && (
+                    <div className="col-span-full flex justify-center my-6">
+                      <AdComponent
+                        adSlot={AD_SLOTS.CATEGORY_ARTICLES_INLINE_1}
+                        style={{ width: 728, height: 90 }}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))
             )}
           </div>
         </div>

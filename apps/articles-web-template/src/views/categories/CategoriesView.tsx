@@ -7,6 +7,9 @@ import { useQueryStates } from 'nuqs';
 import { Pagination } from '@/components/Pagination';
 import type { Category } from '@auto-articles/types';
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, type PaginationMeta } from '@auto-articles/utils';
+import { AdComponent } from '@/components/AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
+import React from 'react';
 
 interface CategoriesViewProps {
   siteId: string;
@@ -44,8 +47,18 @@ export const CategoriesView = ({ siteId }: CategoriesViewProps) => {
                 No articles found.
               </div>
             ) : (
-              categories.map((category) => (
-                <CategoryCard key={category.categoryId} category={category} />
+              categories.map((category, idx) => (
+                <React.Fragment key={category.categoryId + '-' + idx}>
+                  <CategoryCard category={category} />
+                  {idx === 3 && (
+                    <div className="col-span-full flex justify-center my-6">
+                      <AdComponent
+                        adSlot={AD_SLOTS.CATEGORIES_LIST_INLINE_1}
+                        style={{ width: 728, height: 90 }}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
               ))
             )}
           </div>
