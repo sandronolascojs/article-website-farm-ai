@@ -7,6 +7,9 @@ import { articlesViewSearchParamsConfig } from '@/lib/searchParamsCacheTypes/art
 import { Pagination } from '@/components/Pagination';
 import { ArticlesFilters } from './ArticlesFilters';
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, type PaginationMeta } from '@auto-articles/utils';
+import { AdComponent } from '@/components/AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
+import React from 'react';
 
 interface ArticlesViewProps {
   siteId: string;
@@ -52,11 +55,32 @@ export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
                 No articles found.
               </div>
             ) : (
-              articles.map((article: Article) => (
-                <ArticleCard key={article.articleSlug} article={article} />
-              ))
+              <>
+                {articles.slice(0, 4).map((article, idx) => (
+                  <ArticleCard key={article.articleSlug + '-' + idx} article={article} />
+                ))}
+                {articles.length > 4 && (
+                  <div className="col-span-full flex justify-center my-6" key="ad-inline-1">
+                    <AdComponent
+                      adSlot={AD_SLOTS.ARTICLE_INLINE_1}
+                      style={{ width: 728, height: 90 }}
+                    />
+                  </div>
+                )}
+                {articles.slice(4).map((article, idx) => (
+                  <ArticleCard key={article.articleSlug + '-after-' + idx} article={article} />
+                ))}
+              </>
             )}
           </div>
+        </div>
+      </section>
+      <section className="py-4">
+        <div className="container mx-auto px-2 sm:px-4 flex justify-center">
+          <AdComponent
+            adSlot={AD_SLOTS.ARTICLES_LIST_BOTTOM}
+            style={{ maxWidth: '100%', width: 728, height: 90 }}
+          />
         </div>
       </section>
       <section className="py-10 sm:py-12 md:py-16">

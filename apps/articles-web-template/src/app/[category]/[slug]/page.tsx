@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tag } from 'lucide-react';
 import { env } from '../../../../env.mjs';
 import { format } from 'date-fns';
+import { AdComponent } from '@/components/AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
 
 interface ArticlePageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -78,13 +80,26 @@ function ArticleDetails({
     articleSection:
       typeof article.category === 'object' ? article.category?.name : article.category || '',
   };
+
+  const content = article.content || '';
+  const paragraphs = content.split(/\n{2,}/).filter((p) => p.trim().length > 0);
+  const totalParagraphs = Math.max(paragraphs.length, 1);
+  const oneThird = Math.floor(totalParagraphs / 3);
+  const twoThirds = Math.floor((2 * totalParagraphs) / 3);
+
   return (
-    <main className="flex flex-col items-center py-10 px-2 min-h-screen">
+    <main id="article-main" className="flex flex-row justify-center py-10 px-2 min-h-screen w-full">
       <script
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <div className="hidden xl:flex flex-col items-center mr-8">
+        <div className="sticky top-24" style={{ width: 160, height: 600 }}>
+          <AdComponent adSlot={AD_SLOTS.ARTICLE_LEFT} style={{ width: 160, height: 600 }} />
+        </div>
+      </div>
+
       <article className="w-full max-w-4xl bg-card rounded-2xl shadow-xs overflow-hidden mx-auto">
         {article.imageUrl && (
           <img
@@ -109,7 +124,34 @@ function ArticleDetails({
               </span>
             </div>
           </div>
-          <MarkdownRenderer content={article.content} />
+          {/* Markdown content with inline ads */}
+          <div>
+            {paragraphs.slice(0, oneThird).join('\n\n') && (
+              <MarkdownRenderer content={paragraphs.slice(0, oneThird).join('\n\n')} />
+            )}
+            {paragraphs.length > oneThird && (
+              <div className="flex justify-center my-6">
+                <AdComponent
+                  adSlot={AD_SLOTS.ARTICLE_INLINE_1}
+                  style={{ width: 468, height: 60 }}
+                />
+              </div>
+            )}
+            {paragraphs.slice(oneThird, twoThirds).join('\n\n') && (
+              <MarkdownRenderer content={paragraphs.slice(oneThird, twoThirds).join('\n\n')} />
+            )}
+            {paragraphs.length > twoThirds && (
+              <div className="flex justify-center my-6">
+                <AdComponent
+                  adSlot={AD_SLOTS.ARTICLE_INLINE_2}
+                  style={{ width: 468, height: 60 }}
+                />
+              </div>
+            )}
+            {paragraphs.slice(twoThirds).join('\n\n') && (
+              <MarkdownRenderer content={paragraphs.slice(twoThirds).join('\n\n')} />
+            )}
+          </div>
           <div className="mt-6">
             <div className="flex items-center gap-2 mb-2">
               <Tag className="w-4 h-4 text-muted-foreground" />
@@ -121,8 +163,18 @@ function ArticleDetails({
               ))}
             </div>
           </div>
+
+          <div className="flex justify-center my-4">
+            <AdComponent adSlot={AD_SLOTS.ARTICLE_BOTTOM} style={{ width: 728, height: 90 }} />
+          </div>
         </div>
       </article>
+
+      <div className="hidden xl:flex flex-col items-center ml-8">
+        <div className="sticky top-24" style={{ width: 160, height: 600 }}>
+          <AdComponent adSlot={AD_SLOTS.ARTICLE_RIGHT} style={{ width: 160, height: 600 }} />
+        </div>
+      </div>
     </main>
   );
 }

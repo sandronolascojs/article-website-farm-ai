@@ -4,6 +4,8 @@ import { CategoriesSection } from '@/components/CategoriesSection';
 import { fetchAllArticles, fetchCategories } from '@/lib/api';
 import { Metadata } from 'next';
 import { env } from '../../env.mjs';
+import { AdComponent } from '@/components/AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
 
 const SITE_ID = env.NEXT_PUBLIC_SITE_ID;
 const SITE_NAME = env.NEXT_PUBLIC_SITE_NAME;
@@ -55,6 +57,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <div className="flex justify-center my-4">
+        <AdComponent adSlot={AD_SLOTS.HOME_VERTICAL_1} style={{ width: 728, height: 90 }} />
+      </div>
       <CategoriesSection categories={categories} />
     </main>
   );

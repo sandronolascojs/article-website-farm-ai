@@ -19,11 +19,17 @@ const navLinks = [
   { href: '/categories', label: 'Categories', icon: Layers },
 ];
 
+const privacyLinks = [
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/cookie-policy', label: 'Cookie Policy' },
+  { href: '/terms', label: 'Terms & Conditions' },
+];
+
 export const AppSidebar = () => {
   const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'TechBlog';
 
   return (
-    <Sidebar className="border-border">
+    <Sidebar>
       <SidebarHeader>
         <span className="text-xl font-bold">{SITE_NAME}</span>
       </SidebarHeader>
@@ -37,6 +43,22 @@ export const AppSidebar = () => {
                   <SidebarMenuButton asChild>
                     <Link href={link.href} className="flex items-center gap-2">
                       <link.icon className="h-4 w-4" />
+                      <span>{link.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Privacy</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {privacyLinks.map((link) => (
+                <SidebarMenuItem key={link.href}>
+                  <SidebarMenuButton asChild>
+                    <Link href={link.href} className="flex items-center gap-2">
                       <span>{link.label}</span>
                     </Link>
                   </SidebarMenuButton>

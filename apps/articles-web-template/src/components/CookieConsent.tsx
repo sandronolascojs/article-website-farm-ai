@@ -1,46 +1,53 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
-const COOKIE_NAME = 'site_consent';
+import { COOKIE_CONSENT_ADS_NAME } from '@/constants/cookies.constants';
 
 export const CookieConsent = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setShow(!document.cookie.includes(`${COOKIE_NAME}=true`));
+      setShow(!document.cookie.includes(`${COOKIE_CONSENT_ADS_NAME}=true`));
     }
   }, []);
 
   const onAccept = () => {
-    document.cookie = `${COOKIE_NAME}=true; path=/; max-age=31536000`;
+    document.cookie = `${COOKIE_CONSENT_ADS_NAME}=true; path=/; max-age=31536000`;
     setShow(false);
     window.dispatchEvent(new Event('consentChanged'));
+  };
+
+  const onClose = () => {
+    setShow(false);
   };
 
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-end z-50">
-      <Card className="w-full sm:max-w-xl mx-auto rounded-t p-6">
-        <p className="text-sm mb-4">
-          We use cookies to personalize advertising and analyze traffic. By continuing, you accept
-          our{' '}
-          <Link href="/cookie-policy" className="underline">
-            Cookie Policy
-          </Link>{' '}
-          and{' '}
-          <Link href="/privacy" className="underline">
-            Privacy Policy
-          </Link>
-          .
-        </p>
-        <Button className="w-full" onClick={onAccept}>
-          Accept
-        </Button>
+    <div className="fixed inset-0 flex items-end z-50">
+      <Card>
+        <CardHeader>
+          <CardTitle>Cookie Consent</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>
+            We use cookies to personalize advertising and analyze traffic. By continuing, you accept
+            our{' '}
+            <Link href="/cookie-policy" className="underline">
+              Cookie Policy
+            </Link>
+            .
+          </p>
+        </CardContent>
+        <CardFooter className="flex justify-end gap-1">
+          <Button variant="outline" onClick={onClose}>
+            Close
+          </Button>
+          <Button onClick={onAccept}>Accept</Button>
+        </CardFooter>
       </Card>
     </div>
   );

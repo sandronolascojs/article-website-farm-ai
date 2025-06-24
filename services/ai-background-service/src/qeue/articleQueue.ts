@@ -17,5 +17,8 @@ export const addGenerateArticleJob = async (
   data: GenerateArticleJobData,
   options?: JobsOptions,
 ) => {
-  await articleQueue.add(ARTICLE_QUEUE_NAME, data, options);
+  await articleQueue.add(ARTICLE_QUEUE_NAME, data, {
+    jobId: `health-article-job-${Date.now()}`,
+    ...options,
+  });
 };

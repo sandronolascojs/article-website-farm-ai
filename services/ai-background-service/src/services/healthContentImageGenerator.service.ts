@@ -4,7 +4,6 @@ import type { Logger } from '@auto-articles/utils';
 export interface GenerateImageOptions {
   prompt: string;
   aspectRatio?: '16:9' | '1:1' | '21:9' | '2:3' | '3:2' | '4:5' | '5:4' | '9:16' | '9:21';
-  model?: 'sd3.5-large' | 'sd3.5-large-turbo' | 'sd3.5-medium';
   outputFormat?: 'jpeg' | 'png';
   stylePreset?:
     | '3d-model'
@@ -25,7 +24,6 @@ export interface GenerateImageOptions {
     | 'pixel-art'
     | 'tile-texture';
   negativePrompt?: string;
-  cfgScale?: number;
   seed?: number;
 }
 
@@ -47,14 +45,11 @@ export class HealthContentImageGeneratorService {
     seed,
   }: GenerateImageOptions): Promise<GenerateImageResult> {
     try {
-      const fixedPrompt = `${prompt}`;
-      const fixedStylePreset = stylePreset || 'photographic';
-
       const formData = new FormData();
-      formData.append('prompt', fixedPrompt);
+      formData.append('prompt', prompt);
       formData.append('aspect_ratio', aspectRatio);
       formData.append('output_format', outputFormat);
-      formData.append('style_preset', fixedStylePreset);
+      if (stylePreset) formData.append('style_preset', stylePreset);
       if (seed) formData.append('seed', seed.toString());
 
       const response = await fetch(this.apiUrl, {
@@ -77,10 +72,10 @@ export class HealthContentImageGeneratorService {
 
       const contentType = response.headers.get('content-type') || 'image/png';
       const imageBuffer = Buffer.from(await response.arrayBuffer());
-      this.logger.info('Image generated successfully with Stable Diffusion 3.5', { prompt });
+      this.logger.info('Image generated successfully with Stable Diffusion', { prompt });
       return { imageBuffer, contentType };
     } catch (error) {
-      this.logger.error('Failed to generate image with Stable Diffusion 3.5', {
+      this.logger.error('Failed to generate image with Stable Diffusion', {
         error: error instanceof Error ? error.message : String(error),
       });
       throw error;

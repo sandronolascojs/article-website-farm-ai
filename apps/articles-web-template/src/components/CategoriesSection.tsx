@@ -1,5 +1,8 @@
 import type { Category } from '@auto-articles/types';
 import { CategoryCard } from './CategoryCard';
+import { AdComponent } from './AdComponent';
+import { AD_SLOTS } from '@/constants/ads.constants';
+import React from 'react';
 
 interface Props {
   categories: Category[];
@@ -17,9 +20,19 @@ export const CategoriesSection = ({ categories }: Props) => {
             Discover articles across different topics
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {categories.map((category) => (
-            <CategoryCard key={category.categoryId} category={category} />
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {categories.map((category, idx) => (
+            <React.Fragment key={category.categoryId + '-' + idx}>
+              <CategoryCard category={category} />
+              {idx === 3 && (
+                <div className="col-span-full flex justify-center my-6">
+                  <AdComponent
+                    adSlot={AD_SLOTS.CATEGORIES_SECTION_INLINE_1}
+                    style={{ width: 728, height: 90 }}
+                  />
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>
