@@ -4,9 +4,12 @@ import { env } from './src/config/env.config';
 import { healthFoodWebsiteJobs } from '@/jobs/health-food-website.jobs';
 import { dbManager, defaultConfigs } from '@auto-articles/db';
 import { startArticleWorker } from './src/qeue/articleWorker';
+import { errorHandlerPlugin } from '@/plugins/errorHandlerPlugin';
 
 const server = fastify();
 server.register(fastifySchedule);
+
+server.register(errorHandlerPlugin);
 
 server.ready().then(async () => {
   await dbManager.initialize(defaultConfigs);

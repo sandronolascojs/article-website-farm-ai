@@ -7,6 +7,7 @@ import { articlesRouter } from '@/controllers/articles.controller';
 import { categoriesRouter } from '@/controllers/categories.controller';
 import { errorHandlerPlugin } from '@/plugins/errorHandler.plugin';
 import { requestHandlerPlugin } from '@/plugins/requestHandler.plugin';
+import { logger } from '@/utils/logger.instance';
 
 const server = fastify();
 const tsRestServer = initServer();
@@ -30,11 +31,13 @@ server.ready().then(async () => {
   await dbManager.initialize(defaultConfigs);
 });
 
-server.register(requestHandlerPlugin);
-server.register(errorHandlerPlugin);
+server.register(async (instance) => {
+  await requestHandlerPlugin(instance, { logger });
+  await errorHandlerPlugin(instance, { logger });
 
-server.register(tsRestServer.plugin(articlesRouter));
-server.register(tsRestServer.plugin(categoriesRouter));
+  instance.register(tsRestServer.plugin(articlesRouter));
+  instance.register(tsRestServer.plugin(categoriesRouter));
+});
 
 server.listen({ port: env.PORT }, (err) => {
   console.log('Server is running on port', env.PORT);
