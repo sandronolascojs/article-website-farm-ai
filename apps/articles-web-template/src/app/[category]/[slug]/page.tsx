@@ -82,9 +82,10 @@ function ArticleDetails({
   };
 
   const content = article.content || '';
-  const paragraphs = content.split(/\n{2,}/);
-  const oneThird = Math.floor(paragraphs.length / 3);
-  const twoThirds = Math.floor((2 * paragraphs.length) / 3);
+  const paragraphs = content.split(/\n{2,}/).filter((p) => p.trim().length > 0);
+  const totalParagraphs = Math.max(paragraphs.length, 1);
+  const oneThird = Math.floor(totalParagraphs / 3);
+  const twoThirds = Math.floor((2 * totalParagraphs) / 3);
 
   return (
     <main id="article-main" className="flex flex-row justify-center py-10 px-2 min-h-screen w-full">

@@ -49,8 +49,7 @@ export class HealthContentImageGeneratorService {
       formData.append('prompt', prompt);
       formData.append('aspect_ratio', aspectRatio);
       formData.append('output_format', outputFormat);
--      formData.append('style_preset', stylePreset);
-+      if (stylePreset) formData.append('style_preset', stylePreset);
+      if (stylePreset) formData.append('style_preset', stylePreset);
       if (seed) formData.append('seed', seed.toString());
 
       const response = await fetch(this.apiUrl, {

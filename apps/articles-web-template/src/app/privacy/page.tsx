@@ -1,6 +1,6 @@
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import path from 'node:path';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import { env } from '../../../env.mjs';
 
 const PLACEHOLDER_MAP = {
@@ -16,10 +16,10 @@ function replacePlaceholders(markdown: string, map: Record<string, string>) {
 
 export default async function PrivacyPage() {
   const filePath = path.join(process.cwd(), 'privacy-policy.md');
-  
+
   let rawMarkdown: string;
   try {
-    rawMarkdown = await fs.promises.readFile(filePath, 'utf-8');
+    rawMarkdown = await fs.readFile(filePath, 'utf-8');
   } catch (error) {
     console.error('Failed to read privacy policy file:', error);
     return (
@@ -31,7 +31,7 @@ export default async function PrivacyPage() {
       </main>
     );
   }
-  
+
   const content = replacePlaceholders(rawMarkdown, PLACEHOLDER_MAP);
 
   return (
