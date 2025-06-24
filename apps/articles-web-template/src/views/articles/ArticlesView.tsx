@@ -75,9 +75,14 @@ export const ArticlesView = ({ siteId }: ArticlesViewProps) => {
           </div>
         </div>
       </section>
-      <div className="flex justify-center">
-        <AdComponent adSlot={AD_SLOTS.ARTICLE_BOTTOM} style={{ width: 728, height: 90 }} />
-      </div>
+      <section className="py-4">
+        <div className="container mx-auto px-2 sm:px-4 flex justify-center">
+          <AdComponent
+            adSlot={AD_SLOTS.ARTICLES_LIST_BOTTOM}
+            style={{ maxWidth: '100%', width: 728, height: 90 }}
+          />
+        </div>
+      </section>
       <section className="py-10 sm:py-12 md:py-16">
         <div className="container mx-auto px-2 sm:px-4">
           <Pagination
